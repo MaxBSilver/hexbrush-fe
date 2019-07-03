@@ -6,7 +6,7 @@ class App extends Component {
 		loading: false,
 		projects: [],
 		palettes: [],
-		currentProjectId: 0
+		selectedProject: 0
 	};
 
 	componentDidMount() {
@@ -20,16 +20,17 @@ class App extends Component {
 	}
 
 	render() {
-		const { projects, palettes, currentProjectId } = this.state;
-		const filteredPalettes = palettes.filter(palette => palette.id === currentProjectId);
+		const { projects, palettes, selectedProject } = this.state;
+		const filteredPalettes = palettes.filter(palette => palette.project_id === selectedProject);
 		return (
 			<div className="App">
-				<output>
-					<select className="App-project-select" onChange={e => this.setState({ currentProjectId: e.target.value })}>
-						{projects.map(p => <option value={p.id}>{p.name}</option>)}
-					</select>
-					<PaletteView palettes={filteredPalettes} />
-				</output>
+				<select className="App-project-select" onChange={e => this.setState({ selectedProject: e.target.value })}>
+					<option selected value="0">
+						--
+					</option>
+					{projects.map(p => <option value={p.id}>{p.name}</option>)}
+				</select>
+				<PaletteView palettes={filteredPalettes} />
 			</div>
 		);
 	}
