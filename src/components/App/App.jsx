@@ -11,13 +11,21 @@ class App extends Component {
 
 	componentDidMount() {
 		this.setState({ loading: true }, async () => {
-			const projectsRes = await fetch('http://localhost:3001/api/v1/projects');
-			const palettesRes = await fetch('http://localhost:3001/api/v1/palettes');
-			const projects = await projectsRes.json();
-			const palettes = await palettesRes.json();
+			const projects = await this.fetchProjects();
+			const palettes = await this.fetchPalettes();
 			this.setState({ loading: false, projects, palettes });
 		});
 	}
+
+	fetchProjects = async () => {
+		const res = await fetch('http://localhost:3001/api/v1/projects');
+		return await res.json();
+	};
+
+	fetchPalettes = async () => {
+		const res = await fetch('http://localhost:3001/api/v1/palettes');
+		return await res.json();
+	};
 
 	render() {
 		const { projects, palettes, selectedProject } = this.state;
