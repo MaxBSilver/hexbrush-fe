@@ -6,7 +6,8 @@ class App extends Component {
 		loading: false,
 		projects: [],
 		palettes: [],
-		selectedProject: 0
+		selectedProject: 0,
+		error: ''
 	};
 
 	componentDidMount() {
@@ -18,13 +19,21 @@ class App extends Component {
 	}
 
 	fetchProjects = async () => {
-		const res = await fetch('http://localhost:3001/api/v1/projects');
-		return await res.json();
+		try {
+			const res = await fetch('http://localhost:3001/api/v1/projects');
+			return await res.json();
+		} catch (err) {
+			this.setState({ error: 'Unable to fetch projects.' });
+		}
 	};
 
 	fetchPalettes = async () => {
-		const res = await fetch('http://localhost:3001/api/v1/palettes');
-		return await res.json();
+		try {
+			const res = await fetch('http://localhost:3001/api/v1/palettes');
+			return await res.json();
+		} catch (err) {
+			this.setState({ error: 'Unable to fetch palettes.' });
+		}
 	};
 
 	render() {
