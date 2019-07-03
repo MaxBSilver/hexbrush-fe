@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import PaletteView from '../PaletteView/PaletteView';
 
 class App extends Component {
 	state = {
 		loading: false,
 		projects: [],
-		palettes: []
+		palettes: [],
+		currentProjectId: 0
 	};
 
 	componentDidMount() {
@@ -18,7 +20,18 @@ class App extends Component {
 	}
 
 	render() {
-		return <div />;
+		const { projects, palettes, currentProjectId } = this.state;
+		const filteredPalettes = palettes.filter(palette => palette.id === currentProjectId);
+		return (
+			<div className="App">
+				<output>
+					<select className="App-project-select" onChange={e => this.setState({ currentProjectId: e.target.value })}>
+						{projects.map(p => <option value={p.id}>{p.name}</option>)}
+					</select>
+					<PaletteView palettes={filteredPalettes} />
+				</output>
+			</div>
+		);
 	}
 }
 
