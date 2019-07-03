@@ -21,14 +21,20 @@ class App extends Component {
 
 	render() {
 		const { projects, palettes, selectedProject } = this.state;
-		const filteredPalettes = palettes.filter(palette => palette.project_id === selectedProject);
+		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
-				<select className="App-project-select" onChange={e => this.setState({ selectedProject: e.target.value })}>
-					<option selected value="0">
-						--
-					</option>
-					{projects.map(p => <option value={p.id}>{p.name}</option>)}
+				<select
+					className="App-project-select"
+					value={selectedProject}
+					onChange={e => this.setState({ selectedProject: e.target.value })}
+				>
+					<option value="0">--</option>
+					{projects.map(p => (
+						<option key={p.id} value={p.id}>
+							{p.name}
+						</option>
+					))}
 				</select>
 				<PaletteView palettes={filteredPalettes} />
 			</div>
