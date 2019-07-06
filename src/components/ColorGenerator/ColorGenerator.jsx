@@ -7,11 +7,11 @@ export class ColorGenerator extends Component {
 		projectName: '',
 		paletteName: '',
 		colors: [
-			{ isLocked: false, id: 1, hex: '#ffffff' },
-			{ isLocked: false, id: 2, hex: '#ffffff' },
-			{ isLocked: false, id: 3, hex: '#ffffff' },
-			{ isLocked: true, id: 4, hex: '#ffffff' },
-			{ isLocked: false, id: 5, hex: '#ffffff' }
+			{ isLocked: false, id: 1, hex: '' },
+			{ isLocked: false, id: 2, hex: '' },
+			{ isLocked: false, id: 3, hex: '' },
+			{ isLocked: false, id: 4, hex: '' },
+			{ isLocked: false, id: 5, hex: '' }
 		],
 		selectedProject: 0
 	};
@@ -67,7 +67,7 @@ export class ColorGenerator extends Component {
 			const projectId = await fetch('http://localhost:3001/api/v1/projects', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: project
+				body: JSON.stringify(project)
 			});
 			this.addPalette(projectId);
 		} catch (err) {
@@ -90,7 +90,7 @@ export class ColorGenerator extends Component {
 			await fetch(`http://localhost:3001/api/v1/palettes/`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: palette
+				body: JSON.stringify(palette)
 			});
 		} catch (err) {
 			this.setState({ error: err.message });
