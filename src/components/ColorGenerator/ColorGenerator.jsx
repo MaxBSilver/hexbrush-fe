@@ -52,7 +52,13 @@ export class ColorGenerator extends Component {
 	};
 
 	handleSubmit = e => {
-		e.preventDefault();
+    e.preventDefault();
+    const {selectedProject, name, colors} = this.state;
+    if(selectedProject === 0) {
+      this.createNewProject()
+    } else {
+      this.updateProject()
+    }
 	};
 
 	render() {
