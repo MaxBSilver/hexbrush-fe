@@ -2,26 +2,25 @@ import React, { Component } from 'react';
 import randomColor from 'randomcolor';
 import Color from '../Color/Color';
 export class ColorGenerator extends Component {
-	constructor(props) {
-		super(props);
+	state = {
+		loading: true,
+		projectName: '',
+		paletteName: '',
+		colors: [
+			{ isLocked: false, id: 1, hex: '#ffffff' },
+			{ isLocked: false, id: 2, hex: '#ffffff' },
+			{ isLocked: false, id: 3, hex: '#ffffff' },
+			{ isLocked: true, id: 4, hex: '#ffffff' },
+			{ isLocked: false, id: 5, hex: '#ffffff' }
+		],
+		selectedProject: 0
+	};
 
-		this.state = {
-			loading: true,
-			name: '',
-			colors: [
-				{ isLocked: false, id: 1, hex: '#ffffff' },
-				{ isLocked: false, id: 2, hex: '#ffffff' },
-				{ isLocked: false, id: 3, hex: '#ffffff' },
-				{ isLocked: true, id: 4, hex: '#ffffff' },
-				{ isLocked: false, id: 5, hex: '#ffffff' }
-			],
-			selectedProject: 0
-		};
-	}
 	componentDidMount() {
 		this.generateHex();
 		this.createColors();
 	}
+
 	generateHex = () => {
 		let colorsArr = [];
 		let colors = this.state.colors;
@@ -31,6 +30,7 @@ export class ColorGenerator extends Component {
 		});
 		this.setState({ colors: colorsArr });
 	};
+
 	createColors = () => {
 		const { colors } = this.state;
 		const colorArr = colors.map(color => {
@@ -52,16 +52,39 @@ export class ColorGenerator extends Component {
 	};
 
 	handleSubmit = e => {
-    e.preventDefault();
-    const {selectedProject, name, colors} = this.state;
-    if(selectedProject === 0) {
-      this.createNewProject()
-    } else {
-      this.updateProject()
-    }
+		e.preventDefault();
+		const { selectedProject } = this.state;
+		if (selectedProject === 0) {
+			this.addProject();
+		} else {
+			this.addPalette(selectedProject);
+		}
+	};
+
+	addPalette = async (selectedProject) => {
+		const { paletteName, colors } = this.state;
+		const palette = {
+      name: paletteName,
+      project_id: selectedProject,
+			color_1: colors[0].hex,
+			color_2: colors[1].hex,
+			color_3: colors[2].hex,
+			color_4: colors[3].hex,
+			color_5: colors[4].hex
+		};
+		try {
+			await fetch(`http://localhost:3001/api/v1/palettes/`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: palette
+			});
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
 	};
 
 	render() {
+		const { selectedProject, projectName, paletteName } = this.state;
 		return (
 			<div className="ColorGenerator">
 				<section>{this.createColors()}</section>
@@ -69,9 +92,16 @@ export class ColorGenerator extends Component {
 					<button onClick={this.generateHex}>Generate new colors</button>
 				</section>
 				<form onSubmit={this.handleSubmit}>
+					<input
+						type="text"
+						name="paletteName"
+						placeholder="Palette Name"
+						value={paletteName}
+						onChange={e => this.setState({ paletteName: e.target.value })}
+					/>
 					<select
 						className="App-project-select"
-						value={this.state.selectedProject}
+						value={selectedProject}
 						onChange={e => this.setState({ selectedProject: parseInt(e.target.value) })}
 					>
 						<option value="0">Create New Project</option>
@@ -81,15 +111,16 @@ export class ColorGenerator extends Component {
 							</option>
 						))}
 					</select>
-					{this.state.selectedProject === 0 && (
+					{selectedProject === 0 && (
 						<input
 							type="text"
-              name="name"
-              placeholder="New Project Name"
-							value={this.state.name}
+							name="name"
+							placeholder="New Project Name"
+							value={projectName}
 							onChange={e => this.setState({ name: e.target.value })}
 						/>
 					)}
+					<input type="submit" value="Submit" />
 				</form>
 			</div>
 		);
