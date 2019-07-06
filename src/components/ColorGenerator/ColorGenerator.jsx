@@ -51,10 +51,17 @@ export class ColorGenerator extends Component {
       }
       return color;
     });
-    this.setState({colors})
+    this.setState({ colors });
   };
   render() {
-    return <div className="ColorGenerator">{this.createColors()}</div>;
+    return (
+      <div className="ColorGenerator">
+        <section>{this.createColors()}</section>
+        <section>
+          <button onClick={this.generateHex}>Generate new colors</button>
+        </section>
+      </div>
+    );
   }
 }
 
