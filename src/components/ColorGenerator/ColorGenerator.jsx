@@ -62,14 +62,14 @@ export class ColorGenerator extends Component {
 	};
 
 	addProject = async () => {
-		const project = { name: this.state.projectName };
+		const projectData = { name: this.state.projectName };
 		try {
-			const projectId = await fetch('http://localhost:3001/api/v1/projects', {
+			const project = await fetch('http://localhost:3001/api/v1/projects', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(project)
+				body: JSON.stringify(projectData)
 			});
-			this.addPalette(projectId);
+			this.addPalette(project.id);
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
