@@ -51,7 +51,7 @@ export class ColorGenerator extends Component {
       }
       return color;
     });
-    console.log(colors);
+    this.setState({colors})
   };
   render() {
     return <div className="ColorGenerator">{this.createColors()}</div>;
