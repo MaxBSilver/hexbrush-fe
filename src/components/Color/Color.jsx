@@ -11,7 +11,7 @@ class Color extends Component {
   render() {
     const { isLocked, hex } = this.props;
     return (
-      <section className="Color">
+      <section className="Color" style={{backgroundColor: hex}}>
         <p className="Color-hex">{hex}</p>
         {/* <i
           className="Color-lock-icon material-icons"
