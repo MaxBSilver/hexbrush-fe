@@ -50,7 +50,7 @@ describe('App', () => {
 			});
 
 			await wrapper.instance().fetchProjects();
-			expect(wrapper.state('error')).toEqual('Unable to fetch projects.');
+			expect(wrapper.state('error')).toEqual('No data found in "projects" database.');
 		});
 	});
 
@@ -69,13 +69,13 @@ describe('App', () => {
 
 		it('should save the error in state', async () => {
 			window.fetch = jest.fn().mockImplementation(() => {
-				return Promise.resolve({
+				return Promise.reject({
 					ok: false
 				});
 			});
 
 			await wrapper.instance().fetchPalettes();
-			expect(wrapper.state('error')).toEqual('Unable to fetch palettes.');
+			expect(wrapper.state('error')).toEqual('No data found in "palettes" database.');
 		});
 	});
 });

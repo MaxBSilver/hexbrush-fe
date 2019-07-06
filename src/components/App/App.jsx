@@ -23,7 +23,7 @@ class App extends Component {
 			const res = await fetch('http://localhost:3001/api/v1/projects');
 			return await res.json();
 		} catch (err) {
-			this.setState({ error: 'Unable to fetch projects.' });
+			this.setState({ error: err.message });
 		}
 	};
 
@@ -32,7 +32,7 @@ class App extends Component {
 			const res = await fetch('http://localhost:3001/api/v1/palettes');
 			return await res.json();
 		} catch (err) {
-			this.setState({ error: 'Unable to fetch palettes.' });
+			this.setState({ error: err.message });
 		}
 	};
 
