@@ -9,16 +9,16 @@ class Color extends Component {
   }
 
   render() {
-    const { isLocked, hex } = this.props;
+    const { isLocked, hex, id } = this.props;
     return (
       <section className="Color" style={{backgroundColor: hex}}>
         <p className="Color-hex">{hex}</p>
-        {/* <i
+        <i
           className="Color-lock-icon material-icons"
-          onClick={this.setState({ locked: !isLocked })}
+          onClick= {()=> this.props.lockColor(id)}
         >
           {isLocked ? "lock" : "lock_open"}
-        </i> */}
+        </i>
       </section>
     );
   }
