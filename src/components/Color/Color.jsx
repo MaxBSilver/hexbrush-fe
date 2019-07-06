@@ -1,22 +1,24 @@
 import React, { Component } from "react";
 
 class Color extends Component {
-  state = {
-    hex: "#FFFFFF",
-    locked: false
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+    };
+  }
 
   render() {
-    const { locked, hex } = this.state;
+    const { isLocked, hex } = this.props;
     return (
       <section className="Color">
         <p className="Color-hex">{hex}</p>
-        <i
+        {/* <i
           className="Color-lock-icon material-icons"
-          onClick={this.setState({ locked: !locked })}
+          onClick={this.setState({ locked: !isLocked })}
         >
-          {locked ? "lock" : "lock_open"}
-        </i>
+          {isLocked ? "lock" : "lock_open"}
+        </i> */}
       </section>
     );
   }
