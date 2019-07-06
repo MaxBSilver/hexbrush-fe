@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import PaletteView from '../PaletteView/PaletteView';
+import React, { Component } from "react";
+import PaletteView from "../PaletteView/PaletteView";
+import ColorView from "../ColorView/ColorView";
 
 class App extends Component {
 	state = {
@@ -41,6 +42,7 @@ class App extends Component {
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
+				<ColorView projects={this.state.projects}/>
 				<select
 					className="App-project-select"
 					value={selectedProject}
