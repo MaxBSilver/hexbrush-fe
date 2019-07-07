@@ -17,13 +17,14 @@ export class ColorGenerator extends Component {
 		selectedProject: 0
 	};
 
-	componentDidMount() {
+	componentDidMount () {
 		this.generateHex();
 		this.createColors();
 	}
 
 	generateHex = () => {
 		let colorsArr = [];
+		this.props.removeEditState();
 		let colors = this.state.colors;
 		colors.forEach(color => {
 			if (!color.isLocked) color.hex = randomColor();
@@ -32,16 +33,47 @@ export class ColorGenerator extends Component {
 		this.setState({ colors: colorsArr });
 	};
 
+	displayEditColors = () => {
+		let colorsArr = [];
+		if (this.props.hexCodes !== []) this.setState({ colors: colorsArr });
+	};
+
 	createColors = () => {
 		const { colors } = this.state;
 		const colorArr = colors.map(color => {
 			return (
-				<Color isLocked={color.isLocked} key={color.id} id={color.id} hex={color.hex} lockColor={this.lockColor} />
+				<Color
+					isLocked={color.isLocked}
+					key={color.id}
+					id={color.id}
+					hex={color.hex}
+					hexCodes={this.props.hexCodes}
+					lockColor={this.lockColor}
+				/>
 			);
 		});
 		return colorArr;
 	};
-
+	determineColors = () => {
+		if (this.props.hexCodes.length === 0) {
+			return this.createColors();
+		} else {
+			const { hexCodes } = this.props;
+			const { colors } = this.state;
+			const colorArr = colors.map((color, index) => {
+				return (
+					<Color
+						isLocked={color.isLocked}
+						key={color.id}
+						id={color.id}
+						hex={hexCodes[index]}
+						lockColor={this.lockColor}
+					/>
+				);
+			});
+			return colorArr;
+		}
+	};
 	lockColor = id => {
 		const colors = this.state.colors.map(color => {
 			if (color.id === id) {
@@ -62,11 +94,11 @@ export class ColorGenerator extends Component {
 		}
 	};
 
-	render() {
+	render () {
 		const { selectedProject, projectName, paletteName } = this.state;
 		return (
 			<div className="ColorGenerator">
-				<section>{this.createColors()}</section>
+				<section>{this.determineColors()}</section>
 				<section>
 					<button onClick={this.generateHex}>Generate New Colors</button>
 				</section>
