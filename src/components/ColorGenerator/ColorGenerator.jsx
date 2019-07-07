@@ -33,11 +33,6 @@ export class ColorGenerator extends Component {
 		this.setState({ colors: colorsArr });
 	};
 
-	displayEditColors = () => {
-		let colorsArr = [];
-		if (this.props.hexCodes !== []) this.setState({ colors: colorsArr });
-	};
-
 	createColors = () => {
 		const { colors } = this.state;
 		const colorArr = colors.map(color => {
@@ -54,27 +49,33 @@ export class ColorGenerator extends Component {
 		});
 		return colorArr;
 	};
+
+	createEditColors = () => {
+		const { hexCodes } = this.props;
+		const { colors } = this.state;
+
+		colors.forEach((color, index) => {
+			color.hex = hexCodes[index];
+			color.isLocked = false;
+		});
+		const colorArr = colors.map((color, index) => {
+			return (
+				<Color isLocked={color.isLocked} key={color.id} id={color.id} hex={color.hex} lockColor={this.lockColor} />
+			);
+		});
+		return colorArr;
+	};
+
 	determineColors = () => {
 		if (this.props.hexCodes.length === 0) {
 			return this.createColors();
 		} else {
-			const { hexCodes } = this.props;
-			const { colors } = this.state;
-			const colorArr = colors.map((color, index) => {
-				return (
-					<Color
-						isLocked={color.isLocked}
-						key={color.id}
-						id={color.id}
-						hex={hexCodes[index]}
-						lockColor={this.lockColor}
-					/>
-				);
-			});
-			return colorArr;
+			return this.createEditColors();
 		}
 	};
 	lockColor = id => {
+		this.props.removeEditState();
+
 		const colors = this.state.colors.map(color => {
 			if (color.id === id) {
 				color.isLocked = !color.isLocked;
@@ -113,8 +114,7 @@ export class ColorGenerator extends Component {
 					<select
 						className="App-project-select"
 						value={selectedProject}
-						onChange={e => this.setState({ selectedProject: parseInt(e.target.value) })}
-					>
+						onChange={e => this.setState({ selectedProject: parseInt(e.target.value) })}>
 						<option value="0">-- Create New Project --</option>
 						{this.props.projects.map(p => (
 							<option key={p.id} value={p.id}>
