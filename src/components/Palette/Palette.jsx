@@ -20,7 +20,7 @@ const Palette = props => {
 				<i className="material-icons" role="button" onClick={() => props.addEditState(hexCodes)}>
 					edit
 				</i>
-				<i className="material-icons" role="button">
+				<i className="material-icons Palette-button" role="button" onClick={() => props.deletePalette(props.id)}>
 					delete
 				</i>
 			</div>

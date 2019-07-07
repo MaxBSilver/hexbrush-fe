@@ -100,7 +100,7 @@ export class ColorGenerator extends Component {
 			<div className="ColorGenerator">
 				<section>{this.determineColors()}</section>
 				<section>
-					<button onClick={this.generateHex}>Generate new colors</button>
+					<button onClick={this.generateHex}>Generate New Colors</button>
 				</section>
 				<form onSubmit={this.handleSubmit}>
 					<input
@@ -113,8 +113,9 @@ export class ColorGenerator extends Component {
 					<select
 						className="App-project-select"
 						value={selectedProject}
-						onChange={e => this.setState({ selectedProject: parseInt(e.target.value) })}>
-						<option value="0">Create New Project</option>
+						onChange={e => this.setState({ selectedProject: parseInt(e.target.value) })}
+					>
+						<option value="0">-- Create New Project --</option>
 						{this.props.projects.map(p => (
 							<option key={p.id} value={p.id}>
 								{p.name}

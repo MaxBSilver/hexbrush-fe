@@ -85,7 +85,19 @@ class App extends Component {
 	addEditState = hexCodes => {
 		this.setState({ hexCodes });
 	};
-	render () {
+	deletePaltte = async id => {
+		const { palettes } = this.state;
+		try {
+			await fetch(`http://localhost:3001/api/v1/palettes/${id}`, {
+				method: 'DELETE'
+			});
+			this.setState({ palettes: palettes.filter(p => p.id !== id) });
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+	};
+
+	render() {
 		const { projects, palettes, selectedProject, hexCodes } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
@@ -102,7 +114,7 @@ class App extends Component {
 						</option>
 					))}
 				</select>
-				<PaletteView palettes={filteredPalettes} addEditState={this.addEditState} />
+				<PaletteView palettes={filteredPalettes} deletePalette={this.deletePaltte} addEditState={this.addEditState} />
 			</div>
 		);
 	}
