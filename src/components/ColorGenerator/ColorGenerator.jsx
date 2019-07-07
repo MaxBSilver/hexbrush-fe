@@ -96,7 +96,7 @@ export class ColorGenerator extends Component {
 							name="name"
 							placeholder="New Project Name"
 							value={projectName}
-							onChange={e => this.setState({ name: e.target.value })}
+							onChange={e => this.setState({ projectName: e.target.value })}
 						/>
 					)}
 					<input type="submit" value="Submit" />
