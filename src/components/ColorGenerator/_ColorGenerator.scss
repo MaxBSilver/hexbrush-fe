@@ -1,3 +1,33 @@
 .ColorGenerator {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	height: 450px;
+}
+
+.ColorGenerator-colors {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	height: 400px;
+	grid-template-rows: 400px 25px;
+	grid-row-gap: 20px;
+}
+
+.ColorGenerator-form {
+  padding: 0 25px;
   
+  & label {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+
+.ColorGenerator-form-container {
+  margin-bottom: 25px;
+}
+
+.ColorGenerator-form-input {
+	height: 40px;
+	width: 200px;
+	width: 100%;
+	padding-left: 15px;
 }
