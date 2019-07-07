@@ -16,6 +16,7 @@ class App extends Component {
       const projectsRes = await fetch("http://localhost:3001/api/v1/projects");
       const palettesRes = await fetch("http://localhost:3001/api/v1/palettes");
       const projects = await projectsRes.json();
+      console.log(projects);
       const palettes = await palettesRes.json();
       this.setState({ loading: false, projects, palettes });
     });

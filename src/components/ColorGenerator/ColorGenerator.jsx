@@ -4,7 +4,6 @@ import Color from "../Color/Color";
 export class ColorGenerator extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
       colors: [
