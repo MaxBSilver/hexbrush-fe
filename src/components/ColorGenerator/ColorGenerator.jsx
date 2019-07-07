@@ -20,14 +20,15 @@ export class ColorGenerator extends Component {
     this.createColors();
   }
   generateHex = () => {
-    let colorsArr = [];
-    let colors = this.state.colors;
-    colors.map(color => {
-      if (!color.isLocked) color.hex = randomColor();
-      colorsArr.push(color);
+    const colors = this.state.colors.map(c => {
+      if (!c.isLocked) {
+        c.hex = randomColor();
+      }
+      return c;
     });
-    this.setState({ colors: colorsArr });
+    this.setState({ colors: colors });
   };
+  
   createColors = () => {
     const { colors } = this.state;
     const colorArr = colors.map(color => {
