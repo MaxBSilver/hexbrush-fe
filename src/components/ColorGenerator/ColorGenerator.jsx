@@ -101,7 +101,9 @@ export class ColorGenerator extends Component {
 			<div className="ColorGenerator">
 				<section className="ColorGenerator-colors">
 					{this.determineColors()}
-					<button onClick={this.generateHex}>Generate New Colors</button>
+					<button className="ColorGenerator-button" onClick={this.generateHex}>
+						Generate New Colors
+					</button>
 				</section>
 				<form className="ColorGenerator-form" onSubmit={this.handleSubmit}>
 					<div className="ColorGenerator-form-container">
@@ -111,7 +113,7 @@ export class ColorGenerator extends Component {
 							type="text"
 							id="palette-name"
 							name="paletteName"
-							placeholder="Palette Name"
+							placeholder="Untitled Palette"
 							value={paletteName}
 							onChange={e => this.setState({ paletteName: e.target.value })}
 						/>
@@ -146,7 +148,9 @@ export class ColorGenerator extends Component {
 							/>
 						</div>
 					)}
-					<input className="ColorGenerator-form-input" type="submit" value="Submit" />
+					<button className="ColorGenerator-form-input" type="submit">
+						Add New Palette
+					</button>
 				</form>
 			</div>
 		);

@@ -1,0 +1,32 @@
+.Color {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	flex-direction: column;
+	padding: 25px;
+	color: #b6b6b69a;
+
+	&:first-child {
+		border-radius: 8px 0 0 8px;
+	}
+
+	&:nth-child(5) {
+		border-radius: 0 8px 8px 0;
+	}
+}
+
+.Color-hex {
+	cursor: default;
+}
+
+.Color-lock-icon {
+	font-size: 50px;
+	cursor: pointer;
+  transition: background-color 0.1s;
+  padding: 3px;
+  border-radius: 5px;
+
+	&:hover {
+    background-color: #b6b6b66b;
+	}
+}
