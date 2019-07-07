@@ -1,5 +1,4 @@
 import React from 'react';
-// import './_PaletteColor.scss';
 
 const PaletteColor = props => {
 	return (
@@ -7,7 +6,7 @@ const PaletteColor = props => {
 			<svg className="PaletteColor-teardrop" width="50px" viewBox="0 0 30 42">
 				<path
 					fill={props.hexcode}
-					stroke={props.hexcode}
+					stroke="#000"
 					strokeWidth=".1"
 					d="M15 3
               Q16.5 6.8 25 18

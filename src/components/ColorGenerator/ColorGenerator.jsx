@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import randomColor from 'randomcolor';
 import Color from '../Color/Color';
+
 export class ColorGenerator extends Component {
 	state = {
 		loading: true,
@@ -53,47 +54,11 @@ export class ColorGenerator extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		const { selectedProject } = this.state;
+		const { selectedProject, projectName, paletteName, colors } = this.state;
 		if (selectedProject === 0) {
-			this.addProject();
+			this.props.addProject(projectName, paletteName, colors);
 		} else {
-			this.addPalette(selectedProject);
-		}
-	};
-
-	addProject = async () => {
-		const projectData = { name: this.state.projectName };
-		try {
-			const project = await fetch('http://localhost:3001/api/v1/projects', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(projectData)
-			});
-			this.addPalette(project.id);
-		} catch (err) {
-			this.setState({ error: err.message });
-		}
-	};
-
-	addPalette = async projectId => {
-		const { paletteName, colors } = this.state;
-		const palette = {
-			name: paletteName,
-			project_id: projectId,
-			color_1: colors[0].hex,
-			color_2: colors[1].hex,
-			color_3: colors[2].hex,
-			color_4: colors[3].hex,
-			color_5: colors[4].hex
-		};
-		try {
-			await fetch(`http://localhost:3001/api/v1/palettes/`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(palette)
-			});
-		} catch (err) {
-			this.setState({ error: err.message });
+			this.props.addPalette(selectedProject, paletteName, colors);
 		}
 	};
 
@@ -131,7 +96,7 @@ export class ColorGenerator extends Component {
 							name="name"
 							placeholder="New Project Name"
 							value={projectName}
-							onChange={e => this.setState({ name: e.target.value })}
+							onChange={e => this.setState({ projectName: e.target.value })}
 						/>
 					)}
 					<input type="submit" value="Submit" />
