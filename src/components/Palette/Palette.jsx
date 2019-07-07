@@ -1,31 +1,16 @@
 import React from 'react';
+import PaletteColor from '../PaletteColor/PaletteColor';
 
 const Palette = props => {
 	return (
 		<article className="Palette">
-			<div className="Palette-color" style={backgroundColor(props.color_1)}>
-				<p>{props.color_1}</p>
-			</div>
-			<div className="Palette-color" style={backgroundColor(props.color_2)}>
-				<p>{props.color_2}</p>
-			</div>
-			<div className="Palette-color" style={backgroundColor(props.color_3)}>
-				<p>{props.color_3}</p>
-			</div>
-			<div className="Palette-color" style={backgroundColor(props.color_4)}>
-				<p>{props.color_4}</p>
-			</div>
-			<div className="Palette-color" style={backgroundColor(props.color_5)}>
-				<p>{props.color_5}</p>
-			</div>
+			<PaletteColor hexcode={props.color_1}/>
+			<PaletteColor hexcode={props.color_2}/>
+			<PaletteColor hexcode={props.color_3}/>
+			<PaletteColor hexcode={props.color_4}/>
+			<PaletteColor hexcode={props.color_5}/>
 		</article>
 	);
-};
-
-const backgroundColor = color => {
-	return {
-		backgroundColor: color
-	};
 };
 
 export default Palette;

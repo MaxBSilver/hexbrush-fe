@@ -1,0 +1,36 @@
+.PaletteColor {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	font-family: sans-serif;
+  font-size: 16px;
+}
+
+.PaletteColor:nth-child(1) {
+  z-index: 6;
+	transform: translateY(0);
+}
+.PaletteColor:nth-child(2) {
+  z-index: 5;
+  transform: translateY(-30px);
+}
+.PaletteColor:nth-child(3) {
+  transform: translateY(-60px);
+	z-index: 4;
+}
+.PaletteColor:nth-child(4) {
+  transform: translateY(-90px);
+	z-index: 3;
+}
+.PaletteColor:nth-child(5) {
+  transform: translateY(-120px);
+	z-index: 2;
+}
+
+.PaletteColor-teardrop {
+	margin-right: 15px;
+}
+
+.PaletteColor-hexcode {
+  padding-top: 5px;
+}

@@ -5,7 +5,7 @@ export class ColorView extends Component {
     render() {
         return (
             <div>
-                <ColorGenerator/>
+                <ColorGenerator projects={this.props.projects}/>
             </div>
         )
     }
