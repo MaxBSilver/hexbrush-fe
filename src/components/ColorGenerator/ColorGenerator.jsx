@@ -4,7 +4,6 @@ import Color from '../Color/Color';
 
 export class ColorGenerator extends Component {
 	state = {
-		loading: true,
 		projectName: '',
 		paletteName: '',
 		colors: [
@@ -13,8 +12,7 @@ export class ColorGenerator extends Component {
 			{ isLocked: false, id: 3, hex: '' },
 			{ isLocked: false, id: 4, hex: '' },
 			{ isLocked: false, id: 5, hex: '' }
-		],
-		selectedProject: 0
+		]
 	};
 
 	componentDidMount () {
@@ -94,14 +92,27 @@ export class ColorGenerator extends Component {
 			this.props.addPalette(selectedProject, paletteName, colors);
 		}
 	};
-
+	getProjectName = () => {
+		const project = this.props.projects.filter(project => project.id === parseInt(this.props.selectedProject));
+		console.log(project);
+		return project[0].name;
+	};
+	getPaletteId = () => {
+		// const palette = this.props.palettes.filter(palette => palette.name)
+	};
 	render () {
+		console.log(this.props.palettes);
 		const { selectedProject, projectName, paletteName } = this.state;
 		return (
 			<div className="ColorGenerator">
 				<section>{this.determineColors()}</section>
 				<section>
 					<button onClick={this.generateHex}>Generate New Colors</button>
+					<button
+						onClick={() =>
+							this.props.editPalette(this.state.colors, this.props.selectedProject, this.getProjectName())}>
+						Edit Palette
+					</button>
 				</section>
 				<form onSubmit={this.handleSubmit}>
 					<input
