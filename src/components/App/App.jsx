@@ -78,6 +78,18 @@ class App extends Component {
 		}
 	};
 
+	deletePaltte = async id => {
+		const { palettes } = this.state;
+		try {
+			await fetch(`http://localhost:3001/api/v1/palettes/${id}`, {
+				method: 'DELETE'
+			});
+			this.setState({ palettes: palettes.filter(p => p.id !== id) });
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+	};
+
 	render() {
 		const { projects, palettes, selectedProject } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
@@ -96,7 +108,7 @@ class App extends Component {
 						</option>
 					))}
 				</select>
-				<PaletteView palettes={filteredPalettes} />
+				<PaletteView palettes={filteredPalettes} deletePalette={this.deletePaltte}/>
 			</div>
 		);
 	}

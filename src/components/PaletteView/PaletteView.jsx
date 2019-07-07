@@ -3,7 +3,11 @@ import Palette from '../Palette/Palette';
 
 const PaletteView = props => {
 	const { palettes } = props;
-	return <output className="PaletteView">{palettes.map(palette => <Palette key={palette.id} {...palette} />)}</output>;
+	return (
+		<output className="PaletteView">
+			{palettes.map(palette => <Palette key={palette.id} deletePalette={props.deletePalette} {...palette} />)}
+		</output>
+	);
 };
 
 export default PaletteView;
