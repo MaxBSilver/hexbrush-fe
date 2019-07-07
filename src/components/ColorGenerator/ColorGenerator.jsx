@@ -24,7 +24,7 @@ export class ColorGenerator extends Component {
 
 	generateHex = () => {
 		let colorsArr = [];
-		this.setState();
+		this.props.removeEditState();
 		let colors = this.state.colors;
 		colors.forEach(color => {
 			if (!color.isLocked) color.hex = randomColor();

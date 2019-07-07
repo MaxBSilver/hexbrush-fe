@@ -10,6 +10,7 @@ export class ColorView extends Component {
 					projects={this.props.projects}
 					addProject={this.props.addProject}
 					addPalette={this.props.addPalette}
+					removeEditState={this.props.removeEditState}
 				/>
 			</div>
 		);

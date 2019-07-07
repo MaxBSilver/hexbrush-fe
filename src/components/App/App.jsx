@@ -78,7 +78,11 @@ class App extends Component {
 			this.setState({ error: err.message });
 		}
 	};
-	editPalette = hexCodes => {
+	removeEditState = () => {
+		this.setState({ hexCodes: [] });
+	};
+
+	addEditState = hexCodes => {
 		this.setState({ hexCodes });
 	};
 	render () {
@@ -86,7 +90,7 @@ class App extends Component {
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
-				<ColorView hexCodes={hexCodes} projects={projects} addProject={this.addProject} addPalette={this.addPalette} />
+				<ColorView hexCodes={hexCodes} removeEditState={this.removeEditState} projects={projects} addProject={this.addProject} addPalette={this.addPalette} />
 				<select
 					className="App-project-select"
 					value={selectedProject}
@@ -98,7 +102,7 @@ class App extends Component {
 						</option>
 					))}
 				</select>
-				<PaletteView palettes={filteredPalettes} editPalette={this.editPalette} />
+				<PaletteView palettes={filteredPalettes} addEditState={this.addEditState} />
 			</div>
 		);
 	}

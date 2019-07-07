@@ -17,7 +17,7 @@ const Palette = props => {
 				</div>
 			</div>
 			<div className="Palette-button-container">
-				<i className="material-icons" role="button" onClick={() => props.editPalette(hexCodes)}>
+				<i className="material-icons" role="button" onClick={() => props.addEditState(hexCodes)}>
 					edit
 				</i>
 				<i className="material-icons" role="button">
