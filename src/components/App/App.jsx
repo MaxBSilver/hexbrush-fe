@@ -9,7 +9,8 @@ class App extends Component {
 		palettes: [],
 		selectedProject: 0,
 		hexCodes: [],
-		error: ''
+		error: '',
+		selectedPalette: {}
 	};
 
 	componentDidMount () {
@@ -82,8 +83,8 @@ class App extends Component {
 		this.setState({ hexCodes: [] });
 	};
 
-	addEditState = hexCodes => {
-		this.setState({ hexCodes });
+	addEditState = (hexCodes, id, name) => {
+		this.setState({ hexCodes, selectedPalette: { id, name } });
 	};
 	deletePaltte = async id => {
 		const { palettes } = this.state;
@@ -97,20 +98,18 @@ class App extends Component {
 		}
 	};
 
-	editPalette = async (paletteData, id, name) => {
-		const { palettes } = this.state;
+	editPalette = async paletteData => {
+		const { palettes, selectedPalette } = this.state;
 		const palette = {
-			name,
-			project_id : id,
+			name: selectedPalette.name,
 			color_1: paletteData[0].hex,
 			color_2: paletteData[1].hex,
 			color_3: paletteData[2].hex,
 			color_4: paletteData[3].hex,
 			color_5: paletteData[4].hex
 		};
-		console.log(palette)
 		try {
-			await fetch(`http://localhost:3001/api/v1/palettes/${id}`, {
+			await fetch(`http://localhost:3001/api/v1/palettes/${selectedPalette.id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(palette)
@@ -119,6 +118,8 @@ class App extends Component {
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
+		const palettesData = await this.fetchPalettes();
+		this.setState({ palettes: palettesData });
 	};
 	render () {
 		const { projects, palettes, selectedProject, hexCodes } = this.state;
