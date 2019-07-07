@@ -1,35 +1,55 @@
 .Palette {
-	font-family: sans-serif;
-	font-size: 16px;
 	width: 200px;
 	height: 325px;
-  border: 1px solid red;
-  display: flex;
+	border: 1px solid $border-grey;
+	border-radius: 3%;
+	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	padding: 10px;
 	align-items: center;
+	color: $main-font;
+
+	&:hover {
+		box-shadow: 0 0 3px $shadow-grey;
+		transition: transform .15s;
+		transform: scale(1.05);
+	}
 }
 
 .Palette-header {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
-.Palette-teardrop-container {
-	height: 85%;
-}
-
-.Palette-title {
-  margin: 5px 0 0 0;
-  text-align: center;
-}
-
-.Palette-button-container {
-	height: 15%;
+	height: 10%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-  width: 100%;
+	flex-direction: column;
+	cursor: default;
+}
+
+.Palette-teardrop-container {
+  height: 80%;
+  padding-top: 15px;
+}
+
+.Palette-title {
+	margin: 5px 0 0 0;
+	text-align: center;
+}
+
+.Palette-button-container {
+	height: 10%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.Palette-button {
+	cursor: pointer;
+	border-radius: 3px;
+	transition: background-color .1s;
+	padding: 3px;
+	&:hover {
+		background-color: lighten($shadow-grey, 12.5%);
+	}
 }

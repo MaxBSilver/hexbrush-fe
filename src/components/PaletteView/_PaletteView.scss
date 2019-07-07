@@ -1,6 +1,6 @@
 .PaletteView {
-  display: grid;
-  padding: 50px;
-  grid-template-columns: repeat(auto-fit, 220px);
-  grid-gap: 50px;
+	display: grid;
+	padding: 50px;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	grid-gap: 50px;
 }
