@@ -15,7 +15,7 @@ export class ColorGenerator extends Component {
 		]
 	};
 
-	componentDidMount () {
+	componentDidMount() {
 		this.generateHex();
 		this.createColors();
 	}
@@ -71,6 +71,7 @@ export class ColorGenerator extends Component {
 			return this.createEditColors();
 		}
 	};
+
 	lockColor = id => {
 		this.props.removeEditState();
 
@@ -92,57 +93,63 @@ export class ColorGenerator extends Component {
 			this.props.addPalette(selectedProject, paletteName, colors);
 		}
 	};
-	getProjectName = () => {
-		const project = this.props.projects.filter(project => project.id === parseInt(this.props.selectedProject));
-		console.log(project);
-		return project[0].name;
-	};
-	getPaletteId = () => {
-		// const palette = this.props.palettes.filter(palette => palette.name)
-	};
-	render () {
-		console.log(this.props.palettes);
+
+	render() {
 		const { selectedProject, projectName, paletteName } = this.state;
 		return (
 			<div className="ColorGenerator">
-				<section>{this.determineColors()}</section>
-				<section>
-					<button onClick={this.generateHex}>Generate New Colors</button>
-					<button
-						onClick={() =>
-							this.props.editPalette(this.state.colors, this.props.selectedProject, this.getProjectName())}>
-						Edit Palette
+				<section className="ColorGenerator-colors">
+					{this.determineColors()}
+					<button className="ColorGenerator-button" onClick={this.generateHex}>
+						Generate New Colors
 					</button>
 				</section>
-				<form onSubmit={this.handleSubmit}>
-					<input
-						type="text"
-						name="paletteName"
-						placeholder="Palette Name"
-						value={paletteName}
-						onChange={e => this.setState({ paletteName: e.target.value })}
-					/>
-					<select
-						className="App-project-select"
-						value={selectedProject}
-						onChange={e => this.setState({ selectedProject: parseInt(e.target.value) })}>
-						<option value="0">-- Create New Project --</option>
-						{this.props.projects.map(p => (
-							<option key={p.id} value={p.id}>
-								{p.name}
-							</option>
-						))}
-					</select>
-					{selectedProject === 0 && (
+				<form className="ColorGenerator-form" onSubmit={this.handleSubmit}>
+					<div className="ColorGenerator-form-container">
+						<label htmlFor="palette-name">Palette Name</label>
 						<input
+							className="ColorGenerator-form-input"
 							type="text"
-							name="name"
-							placeholder="New Project Name"
-							value={projectName}
-							onChange={e => this.setState({ projectName: e.target.value })}
+							id="palette-name"
+							name="paletteName"
+							placeholder="Untitled Palette"
+							value={paletteName}
+							onChange={e => this.setState({ paletteName: e.target.value })}
 						/>
+					</div>
+					<div className="ColorGenerator-form-container">
+						<label htmlFor="project-selector">Select a Project:</label>
+						<select
+							className="App-project-select"
+							id="project-selector"
+							value={selectedProject}
+							onChange={e => this.setState({ selectedProject: parseInt(e.target.value) })}
+						>
+							<option value="0">-- Create New Project --</option>
+							{this.props.projects.map(p => (
+								<option key={p.id} value={p.id}>
+									{p.name}
+								</option>
+							))}
+						</select>
+					</div>
+					{selectedProject === 0 && (
+						<div className="ColorGenerator-form-container">
+							<label htmlFor="new-project-name">Project Name</label>
+							<input
+								className="ColorGenerator-form-input"
+								id="new-project-name"
+								type="text"
+								name="name"
+								placeholder="Untitled Project"
+								value={projectName}
+								onChange={e => this.setState({ projectName: e.target.value })}
+							/>
+						</div>
 					)}
-					<input type="submit" value="Submit" />
+					<button className="ColorGenerator-form-input" type="submit">
+						Add New Palette
+					</button>
 				</form>
 			</div>
 		);
