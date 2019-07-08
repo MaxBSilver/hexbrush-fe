@@ -6,5 +6,14 @@
 	& hr {
     border: 0;
 		border-top: 2px solid $border-grey;
+		margin-bottom: 25px;
+	}
+}
+
+select {
+	@include input-style;
+	background-color: white;
+	&.palette-view-select {
+		width: 300px;
 	}
 }

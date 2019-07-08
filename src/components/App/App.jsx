@@ -113,7 +113,7 @@ class App extends Component {
 				/>
 				<hr />
 				<select
-					className="App-project-select"
+					className="App-project-select palette-view-select"
 					value={selectedProject}
 					onChange={e => this.setState({ selectedProject: e.target.value })}
 				>
