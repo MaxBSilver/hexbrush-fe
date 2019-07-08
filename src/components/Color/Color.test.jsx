@@ -8,6 +8,7 @@ describe('Color', () => {
 		mockLockColor = jest.fn();
 		wrapper = shallow(<Color isLocked={false} hex="#fa5b27" id={1} lockColor={mockLockColor} />);
 	});
+
 	it('should match the snapshot if unlocked', () => {
 		expect(wrapper).toMatchSnapshot();
 	});
