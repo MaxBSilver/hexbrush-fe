@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Color should match the snapshot if locked 1`] = `ShallowWrapper {}`;
+
+exports[`Color should match the snapshot if unlocked 1`] = `ShallowWrapper {}`;
