@@ -4,6 +4,7 @@ import Color from '../Color/Color';
 
 export class ColorGenerator extends Component {
 	state = {
+		loading: true,
 		projectName: '',
 		paletteName: '',
 		colors: [
@@ -12,7 +13,8 @@ export class ColorGenerator extends Component {
 			{ isLocked: false, id: 3, hex: '' },
 			{ isLocked: false, id: 4, hex: '' },
 			{ isLocked: false, id: 5, hex: '' }
-		]
+		],
+		selectedProject: 0
 	};
 
 	componentDidMount() {
@@ -31,6 +33,11 @@ export class ColorGenerator extends Component {
 		this.setState({ colors: colorsArr });
 	};
 
+	displayEditColors = () => {
+		let colorsArr = [];
+		if (this.props.hexCodes !== []) this.setState({ colors: colorsArr });
+	};
+
 	createColors = () => {
 		const { colors } = this.state;
 		const colorArr = colors.map(color => {
@@ -47,34 +54,28 @@ export class ColorGenerator extends Component {
 		});
 		return colorArr;
 	};
-
-	createEditColors = () => {
-		const { hexCodes } = this.props;
-		const { colors } = this.state;
-
-		colors.forEach((color, index) => {
-			color.hex = hexCodes[index];
-			color.isLocked = false;
-		});
-		const colorArr = colors.map((color, index) => {
-			return (
-				<Color isLocked={color.isLocked} key={color.id} id={color.id} hex={color.hex} lockColor={this.lockColor} />
-			);
-		});
-		return colorArr;
-	};
-
 	determineColors = () => {
 		if (this.props.hexCodes.length === 0) {
 			return this.createColors();
 		} else {
-			return this.createEditColors();
+			const { hexCodes } = this.props;
+			const { colors } = this.state;
+			const colorArr = colors.map((color, index) => {
+				return (
+					<Color
+						isLocked={color.isLocked}
+						key={color.id}
+						id={color.id}
+						hex={hexCodes[index]}
+						lockColor={this.lockColor}
+					/>
+				);
+			});
+			return colorArr;
 		}
 	};
 
 	lockColor = id => {
-		this.props.removeEditState();
-
 		const colors = this.state.colors.map(color => {
 			if (color.id === id) {
 				color.isLocked = !color.isLocked;
@@ -102,9 +103,6 @@ export class ColorGenerator extends Component {
 					{this.determineColors()}
 					<button className="ColorGenerator-button" onClick={this.generateHex}>
 						Generate New Colors
-					</button>
-					<button className="ColorGenerator-button" onClick={() => this.props.editPalette(this.state.colors)}>
-						Edit Palette
 					</button>
 				</section>
 				<form className="ColorGenerator-form" onSubmit={this.handleSubmit}>
