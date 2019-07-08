@@ -9,10 +9,11 @@ class App extends Component {
 		palettes: [],
 		selectedProject: 0,
 		hexCodes: [],
-		error: ''
+		error: '',
+		selectedPalette: {}
 	};
 
-	componentDidMount() {
+	componentDidMount () {
 		this.setState({ loading: true }, async () => {
 			const projects = await this.fetchProjects();
 			const palettes = await this.fetchPalettes();
@@ -47,7 +48,7 @@ class App extends Component {
 				body: JSON.stringify({ name: projectName })
 			});
 			const newProject = await res.json();
-			this.setState({ projects: [...projects, newProject] }, () => {
+			this.setState({ projects: [ ...projects, newProject ] }, () => {
 				this.addPalette(newProject.id, paletteName, colors);
 			});
 		} catch (err) {
@@ -73,7 +74,7 @@ class App extends Component {
 				body: JSON.stringify(paletteData)
 			});
 			const newPalette = await res.json();
-			this.setState({ palettes: [...palettes, newPalette] });
+			this.setState({ palettes: [ ...palettes, newPalette ] });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
@@ -83,8 +84,8 @@ class App extends Component {
 		this.setState({ hexCodes: [] });
 	};
 
-	addEditState = hexCodes => {
-		this.setState({ hexCodes });
+	addEditState = (hexCodes, id, name) => {
+		this.setState({ hexCodes, selectedPalette: { id, name } });
 	};
 	deletePaltte = async id => {
 		const { palettes } = this.state;
@@ -98,7 +99,30 @@ class App extends Component {
 		}
 	};
 
-	render() {
+	editPalette = async paletteData => {
+		const { palettes, selectedPalette } = this.state;
+		const palette = {
+			name: selectedPalette.name,
+			color_1: paletteData[0].hex,
+			color_2: paletteData[1].hex,
+			color_3: paletteData[2].hex,
+			color_4: paletteData[3].hex,
+			color_5: paletteData[4].hex
+		};
+		try {
+			await fetch(`http://localhost:3001/api/v1/palettes/${selectedPalette.id}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(palette)
+			});
+			this.setState({ palettes: palettes.filter(p => p.id !== palette.id) });
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+		const palettesData = await this.fetchPalettes();
+		this.setState({ palettes: palettesData });
+	};
+	render () {
 		const { projects, palettes, selectedProject, hexCodes } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
@@ -110,13 +134,21 @@ class App extends Component {
 					projects={projects}
 					addProject={this.addProject}
 					addPalette={this.addPalette}
+					editPalette={this.editPalette}
+					palettes={palettes}
+					selectedProject={selectedProject}
 				/>
+				<select
+					className="App-project-select"
+					value={selectedProject}
+					onChange={e => this.setState({ selectedProject: parseInt(e.target.value) })}
+				/>
+
 				<hr />
 				<select
 					className="App-project-select"
 					value={selectedProject}
-					onChange={e => this.setState({ selectedProject: e.target.value })}
-				>
+					onChange={e => this.setState({ selectedProject: e.target.value })}>
 					<option value="0">--</option>
 					{projects.map(p => (
 						<option key={p.id} value={p.id}>
