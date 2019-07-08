@@ -1,4 +1,10 @@
 .App {
-  max-width: 1400px;
-  margin: auto;
+	max-width: 1400px;
+	margin: auto;
+	padding: 0 25px;
+
+	& hr {
+    border: 0;
+		border-top: 2px solid $border-grey;
+	}
 }

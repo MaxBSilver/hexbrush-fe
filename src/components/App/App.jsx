@@ -12,7 +12,7 @@ class App extends Component {
 		error: ''
 	};
 
-	componentDidMount () {
+	componentDidMount() {
 		this.setState({ loading: true }, async () => {
 			const projects = await this.fetchProjects();
 			const palettes = await this.fetchPalettes();
@@ -47,7 +47,7 @@ class App extends Component {
 				body: JSON.stringify({ name: projectName })
 			});
 			const newProject = await res.json();
-			this.setState({ projects: [ ...projects, newProject ] }, () => {
+			this.setState({ projects: [...projects, newProject] }, () => {
 				this.addPalette(newProject.id, paletteName, colors);
 			});
 		} catch (err) {
@@ -73,11 +73,12 @@ class App extends Component {
 				body: JSON.stringify(paletteData)
 			});
 			const newPalette = await res.json();
-			this.setState({ palettes: [ ...palettes, newPalette ] });
+			this.setState({ palettes: [...palettes, newPalette] });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
 	};
+
 	removeEditState = () => {
 		this.setState({ hexCodes: [] });
 	};
@@ -102,11 +103,20 @@ class App extends Component {
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
-				<ColorView hexCodes={hexCodes} removeEditState={this.removeEditState} projects={projects} addProject={this.addProject} addPalette={this.addPalette} />
+				<h1>Hexbrush</h1>
+				<ColorView
+					hexCodes={hexCodes}
+					removeEditState={this.removeEditState}
+					projects={projects}
+					addProject={this.addProject}
+					addPalette={this.addPalette}
+				/>
+				<hr />
 				<select
 					className="App-project-select"
 					value={selectedProject}
-					onChange={e => this.setState({ selectedProject: e.target.value })}>
+					onChange={e => this.setState({ selectedProject: e.target.value })}
+				>
 					<option value="0">--</option>
 					{projects.map(p => (
 						<option key={p.id} value={p.id}>
