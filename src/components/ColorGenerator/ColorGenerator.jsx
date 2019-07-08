@@ -103,6 +103,9 @@ export class ColorGenerator extends Component {
 					<button className="ColorGenerator-button" onClick={this.generateHex}>
 						Generate New Colors
 					</button>
+					<button className="ColorGenerator-button" onClick={() => this.props.editPalette(this.state.colors)}>
+						Edit Palette
+					</button>
 				</section>
 				<form className="ColorGenerator-form" onSubmit={this.handleSubmit}>
 					<div className="ColorGenerator-form-container">
