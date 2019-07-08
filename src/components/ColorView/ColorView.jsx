@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ColorGenerator from '../ColorGenerator/ColorGenerator';
 
 export class ColorView extends Component {
-	render () {
+	render() {
 		return (
 			<div>
 				<ColorGenerator
@@ -11,9 +11,6 @@ export class ColorView extends Component {
 					addProject={this.props.addProject}
 					addPalette={this.props.addPalette}
 					removeEditState={this.props.removeEditState}
-					editPalette={this.props.editPalette}
-					palettes={this.props.palettes}
-					selectedProject={this.props.selectedProject}
 				/>
 			</div>
 		);
