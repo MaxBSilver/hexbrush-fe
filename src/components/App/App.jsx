@@ -8,7 +8,7 @@ class App extends Component {
 		projects: [],
 		palettes: [],
 		selectedProject: 0,
-		hexCodes: [],
+		editInfo: { status: false, hex: [] },
 		error: ''
 	};
 
@@ -79,13 +79,15 @@ class App extends Component {
 		}
 	};
 
+	// ! refactor to a toggle
 	removeEditState = () => {
-		this.setState({ hexCodes: [] });
+		this.setState({ editInfo: { status: false, hex: [] } });
 	};
 
 	addEditState = hexCodes => {
-		this.setState({ hexCodes });
+		this.setState({ editInfo: {status: true, hex : hexCodes} });
 	};
+
 	deletePalette = async id => {
 		const { palettes } = this.state;
 		try {
@@ -99,13 +101,13 @@ class App extends Component {
 	};
 
 	render () {
-		const { projects, palettes, selectedProject, hexCodes } = this.state;
+		const { projects, palettes, selectedProject, editInfo } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
 				<h1>Hexbrush</h1>
 				<ColorView
-					hexCodes={hexCodes}
+					editInfo={editInfo}
 					removeEditState={this.removeEditState}
 					projects={projects}
 					addProject={this.addProject}

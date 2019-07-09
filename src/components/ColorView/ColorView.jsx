@@ -6,7 +6,7 @@ export class ColorView extends Component {
 		return (
 			<div>
 				<ColorGenerator
-					hexCodes={this.props.hexCodes}
+					editInfo={this.props.editInfo}
 					projects={this.props.projects}
 					addProject={this.props.addProject}
 					addPalette={this.props.addPalette}

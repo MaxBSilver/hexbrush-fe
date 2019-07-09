@@ -47,27 +47,26 @@ export class ColorGenerator extends Component {
 					key={color.id}
 					id={color.id}
 					hex={color.hex}
-					hexCodes={this.props.hexCodes}
+					hexCodes={this.props.editInfo.hex}
 					lockColor={this.lockColor}
 				/>
 			);
 		});
 		return colorArr;
 	};
-	
 	determineColors = () => {
-		if (this.props.hexCodes.length === 0) {
+		if (!this.props.editInfo.status) {
 			return this.createColors();
 		} else {
-			const { hexCodes } = this.props;
+			const { editInfo } = this.props;
 			const { colors } = this.state;
 			const colorArr = colors.map((color, index) => {
-				return (
+				return ( 
 					<Color
 						isLocked={color.isLocked}
 						key={color.id}
 						id={color.id}
-						hex={hexCodes[index]}
+						hex={editInfo.hex[index]}
 						lockColor={this.lockColor}
 					/>
 				);
