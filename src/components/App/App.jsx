@@ -37,9 +37,9 @@ class App extends Component {
 			this.setState({ error: err.message });
 		}
 	};
-	selectProject = (projectNum) => {
-		this.setState({selectedProject: projectNum})
-	}
+	selectProject = projectNum => {
+		this.setState({ selectedProject: projectNum });
+	};
 	addProject = async (projectName, paletteName, colors) => {
 		const { projects } = this.state;
 		try {
@@ -146,18 +146,15 @@ class App extends Component {
 					selectProject={this.selectProject}
 				/>
 				<hr />
-				<select
-					className="App-project-select palette-view-select"
-					value={selectedProject}
-					onChange={e => this.setState({ selectedProject: e.target.value })}>
-					<option value="0">--</option>
-					{projects.map(p => (
-						<option key={p.id} value={p.id}>
-							{p.name}
-						</option>
-					))}
-				</select>
-				<PaletteView palettes={filteredPalettes} deletePalette={this.deletePalette} addEditState={this.addEditState} />
+
+				<PaletteView
+					projects={projects}
+					selectedProject={selectedProject}
+					palettes={filteredPalettes}
+					deletePalette={this.deletePalette}
+					addEditState={this.addEditState}
+					selectProject={this.selectProject}
+				/>
 			</div>
 		);
 	}

@@ -117,7 +117,8 @@ export class ColorGenerator extends Component {
 				</section>
 				<form className="ColorGenerator-form" onSubmit={this.handleSubmit}>
 					
-					<div className="ColorGenerator-form-container" style={{border: '1px solid black'}}>
+					<div className="ColorGenerator-form-container">
+						
 
 						<label htmlFor="project-selector">Select a Project:</label>
 						<select
