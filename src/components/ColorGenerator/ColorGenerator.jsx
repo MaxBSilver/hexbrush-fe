@@ -54,6 +54,7 @@ export class ColorGenerator extends Component {
 		});
 		return colorArr;
 	};
+	
 	determineColors = () => {
 		if (this.props.hexCodes.length === 0) {
 			return this.createColors();

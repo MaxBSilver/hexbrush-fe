@@ -4,7 +4,8 @@
 	align-items: center;
 	flex-direction: column;
 	padding: 25px;
-	color: #b6b6b69a;
+	color: #ffffff9a;
+	transition: transform 0.25s;
 
 	&:first-child {
 		border-radius: 8px 0 0 8px;
@@ -12,6 +13,10 @@
 
 	&:nth-child(5) {
 		border-radius: 0 8px 8px 0;
+	}
+
+	&:hover {
+		transform: scale(1.02)
 	}
 }
 
@@ -27,6 +32,6 @@
   border-radius: 5px;
 
 	&:hover {
-    background-color: #b6b6b66b;
+		background-color: #ffffff6b;
 	}
 }

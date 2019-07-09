@@ -17,10 +17,10 @@ const Palette = props => {
 				<PaletteColor hexcode={color_5} />
 			</div>
 			<div className="Palette-button-container">
-				<i className="material-icons Palette-button" role="button" onClick={() => props.addEditState(hexCodes)}>
+				<i className="material-icons Palette-button edit-btn" role="button" onClick={() => props.addEditState(hexCodes)}>
 					edit
 				</i>
-				<i className="material-icons Palette-button" role="button" onClick={() => props.deletePalette(props.id)}>
+				<i className="material-icons Palette-button delete-btn" role="button" onClick={() => props.deletePalette(props.id)}>
 					delete
 				</i>
 			</div>
