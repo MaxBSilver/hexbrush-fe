@@ -12,7 +12,7 @@ class App extends Component {
 		error: ''
 	};
 
-	componentDidMount () {
+	componentDidMount() {
 		this.setState({ loading: true }, async () => {
 			const projects = await this.fetchProjects();
 			const palettes = await this.fetchPalettes();
@@ -37,9 +37,25 @@ class App extends Component {
 			this.setState({ error: err.message });
 		}
 	};
+
+	renameProject = async (id, name) => {
+		try {
+			await fetch(`http://localhost:3001/api/v1/projects/${id}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ name })
+			});
+			const projects = await this.fetchProjects();
+			this.setState({ projects });
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+	};
+
 	selectProject = projectNum => {
 		this.setState({ selectedProject: projectNum });
 	};
+
 	addProject = async (projectName, paletteName, colors) => {
 		const { projects } = this.state;
 		try {
@@ -49,7 +65,7 @@ class App extends Component {
 				body: JSON.stringify({ name: projectName })
 			});
 			const newProject = await res.json();
-			this.setState({ projects: [ ...projects, newProject ] }, () => {
+			this.setState({ projects: [...projects, newProject] }, () => {
 				this.addPalette(newProject.id, paletteName, colors);
 			});
 		} catch (err) {
@@ -75,7 +91,7 @@ class App extends Component {
 				body: JSON.stringify(paletteData)
 			});
 			const newPalette = await res.json();
-			this.setState({ palettes: [ ...palettes, newPalette ] });
+			this.setState({ palettes: [...palettes, newPalette] });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
@@ -129,7 +145,7 @@ class App extends Component {
 		}
 	};
 
-	render () {
+	render() {
 		const { projects, palettes, selectedProject, editInfo } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
@@ -154,6 +170,7 @@ class App extends Component {
 					deletePalette={this.deletePalette}
 					addEditState={this.addEditState}
 					selectProject={this.selectProject}
+					renameProject={this.renameProject}
 				/>
 			</div>
 		);
