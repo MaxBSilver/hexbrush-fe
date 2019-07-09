@@ -3,6 +3,8 @@ import Palette from '../Palette/Palette';
 
 const PaletteView = props => {
 	const { palettes, addEditState, deletePalette, selectedProject, projects } = props;
+	console.log(palettes)
+	console.log(palettes.sort((a,b) =>  b.id - a.id))
 	return (
 		<React.Fragment>
 			<select
@@ -17,7 +19,7 @@ const PaletteView = props => {
 				))}
 			</select>
 			<output className="PaletteView">
-				{palettes.map(palette => (
+				{palettes.sort((a,b) =>  b.id - a.id).map(palette => (
 					<Palette key={palette.id} deletePalette={deletePalette} addEditState={addEditState} {...palette} />
 				))}
 			</output>
