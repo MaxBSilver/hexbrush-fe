@@ -8,7 +8,7 @@ class App extends Component {
 		projects: [],
 		palettes: [],
 		selectedProject: 0,
-		editInfo: { status: false, hex: [] },
+		editInfo: { editing: false, displayEdit: false, hex: [] },
 		error: ''
 	};
 
@@ -79,13 +79,40 @@ class App extends Component {
 		}
 	};
 
-	// ! refactor to a toggle
-	removeEditState = () => {
-		this.setState({ editInfo: { status: false, hex: [] } });
+	editPalette = async paletteData => {
+		const { selectedPalette } = this.state;
+		const palette = {
+			name: selectedPalette.name,
+			color_1: paletteData[0].hex,
+			color_2: paletteData[1].hex,
+			color_3: paletteData[2].hex,
+			color_4: paletteData[3].hex,
+			color_5: paletteData[4].hex
+		};
+		try {
+			await fetch(`http://localhost:3001/api/v1/palettes/${selectedPalette.id}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(palette)
+			});
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+		const palettesData = await this.fetchPalettes();
+		this.setState({ palettes: palettesData, editInfo: { editing: false, displayEdit: false, hex: [] } });
 	};
 
-	addEditState = hexCodes => {
-		this.setState({ editInfo: {status: true, hex : hexCodes} });
+	removeEditState = () => {
+		this.setState({ editInfo: { editing: false, displayEdit: false, hex: [] } });
+	};
+
+	removeDisplayEdit = hexCodes => {
+		const editing = this.state.editInfo.editing;
+		this.setState({ editInfo: { editing: editing, displayEdit: false, hex: hexCodes } });
+	};
+
+	addEditState = (hexCodes, id, name) => {
+		this.setState({ selectedPalette: { id, name }, editInfo: { editing: true, displayEdit: true, hex: hexCodes } });
 	};
 
 	deletePalette = async id => {
@@ -112,6 +139,8 @@ class App extends Component {
 					projects={projects}
 					addProject={this.addProject}
 					addPalette={this.addPalette}
+					removeDisplayEdit={this.removeDisplayEdit}
+					editPalette={this.editPalette}
 				/>
 				<hr />
 				<select

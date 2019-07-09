@@ -3,7 +3,7 @@ import PaletteColor from '../PaletteColor/PaletteColor';
 
 const Palette = props => {
 	const { color_1, color_2, color_3, color_4, color_5 } = props;
-	const hexCodes = [color_1, color_2, color_3, color_4, color_5];
+	const hexCodes = [ color_1, color_2, color_3, color_4, color_5 ];
 	return (
 		<article className="Palette">
 			<div className="Palette-header">
@@ -17,10 +17,16 @@ const Palette = props => {
 				<PaletteColor hexcode={color_5} />
 			</div>
 			<div className="Palette-button-container">
-				<i className="material-icons Palette-button edit-btn" role="button" onClick={() => props.addEditState(hexCodes)}>
+				<i
+					className="material-icons Palette-button edit-btn"
+					role="button"
+					onClick={() => props.addEditState(hexCodes, props.id, props.name)}>
 					edit
 				</i>
-				<i className="material-icons Palette-button delete-btn" role="button" onClick={() => props.deletePalette(props.id)}>
+				<i
+					className="material-icons Palette-button delete-btn"
+					role="button"
+					onClick={() => props.deletePalette(props.id)}>
 					delete
 				</i>
 			</div>
