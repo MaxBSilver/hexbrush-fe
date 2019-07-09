@@ -52,6 +52,18 @@ class App extends Component {
 		}
 	};
 
+	deleteProject = async id => {
+		try {
+			await fetch(`http://localhost:3001/api/v1/projects/${id}`, {
+				method: 'DELETE'
+			});
+			const projects = await this.fetchProjects();
+			this.setState({ projects, selectedProject: 0 });
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+	};
+
 	selectProject = projectNum => {
 		this.setState({ selectedProject: projectNum });
 	};
@@ -171,6 +183,7 @@ class App extends Component {
 					addEditState={this.addEditState}
 					selectProject={this.selectProject}
 					renameProject={this.renameProject}
+					deleteProject={this.deleteProject}
 				/>
 			</div>
 		);

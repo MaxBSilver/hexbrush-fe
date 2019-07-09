@@ -12,7 +12,7 @@ class PaletteView extends Component {
 	};
 
 	render() {
-		const { palettes, addEditState, deletePalette, selectedProject, projects } = this.props;
+		const { palettes, addEditState, deletePalette, selectedProject, projects, deleteProject } = this.props;
 		return (
 			<React.Fragment>
 				<section className="PaletteView-edit-form">
@@ -39,7 +39,7 @@ class PaletteView extends Component {
 							<button id="PaletteView-edit-project-btn" onClick={this.renameProject}>
 								Edit Project Name
 							</button>
-							<button id="PaletteView-delete-project-btn">Delete Project</button>
+							<button id="PaletteView-delete-project-btn" onClick={() => deleteProject(selectedProject)}>Delete Project</button>
 						</React.Fragment>
 					)}
 				</section>
