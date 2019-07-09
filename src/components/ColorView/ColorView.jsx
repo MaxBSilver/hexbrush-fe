@@ -13,6 +13,7 @@ export class ColorView extends Component {
 					removeEditState={this.props.removeEditState}
 					removeDisplayEdit={this.props.removeDisplayEdit}
 					editPalette={this.props.editPalette}
+					selectProject={this.props.selectProject}
 				/>
 			</div>
 		);

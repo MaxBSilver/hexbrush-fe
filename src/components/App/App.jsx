@@ -37,7 +37,9 @@ class App extends Component {
 			this.setState({ error: err.message });
 		}
 	};
-
+	selectProject = (projectNum) => {
+		this.setState({selectedProject: projectNum})
+	}
 	addProject = async (projectName, paletteName, colors) => {
 		const { projects } = this.state;
 		try {
@@ -141,6 +143,7 @@ class App extends Component {
 					addPalette={this.addPalette}
 					removeDisplayEdit={this.removeDisplayEdit}
 					editPalette={this.editPalette}
+					selectProject={this.selectProject}
 				/>
 				<hr />
 				<select
