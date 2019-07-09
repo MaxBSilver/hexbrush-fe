@@ -24,8 +24,11 @@ describe('App', () => {
 
 		it('should set the state with the fetched data', () => {
 			wrapper.instance().componentDidMount();
-			expect(wrapper.state('projects')).toEqual(mockProjects);
-			expect(wrapper.state('palettes')).toEqual(mockPalettes);
+			setTimeout(() => {
+				expect(wrapper.state('projects')).toEqual(mockProjects);
+				expect(wrapper.state('palettes')).toEqual(mockPalettes);
+			  }, 500);
+		
 		});
 	});
 
