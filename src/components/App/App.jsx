@@ -8,11 +8,11 @@ class App extends Component {
 		projects: [],
 		palettes: [],
 		selectedProject: 0,
-		hexCodes: [],
+		editInfo: { editing: false, displayEdit: false, hex: [] },
 		error: ''
 	};
 
-	componentDidMount() {
+	componentDidMount () {
 		this.setState({ loading: true }, async () => {
 			const projects = await this.fetchProjects();
 			const palettes = await this.fetchPalettes();
@@ -37,7 +37,9 @@ class App extends Component {
 			this.setState({ error: err.message });
 		}
 	};
-
+	selectProject = projectNum => {
+		this.setState({ selectedProject: projectNum });
+	};
 	addProject = async (projectName, paletteName, colors) => {
 		const { projects } = this.state;
 		try {
@@ -47,7 +49,7 @@ class App extends Component {
 				body: JSON.stringify({ name: projectName })
 			});
 			const newProject = await res.json();
-			this.setState({ projects: [...projects, newProject] }, () => {
+			this.setState({ projects: [ ...projects, newProject ] }, () => {
 				this.addPalette(newProject.id, paletteName, colors);
 			});
 		} catch (err) {
@@ -73,20 +75,49 @@ class App extends Component {
 				body: JSON.stringify(paletteData)
 			});
 			const newPalette = await res.json();
-			this.setState({ palettes: [...palettes, newPalette] });
+			this.setState({ palettes: [ ...palettes, newPalette ] });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
 	};
 
-	removeEditState = () => {
-		this.setState({ hexCodes: [] });
+	editPalette = async paletteData => {
+		const { selectedPalette } = this.state;
+		const palette = {
+			name: selectedPalette.name,
+			color_1: paletteData[0].hex,
+			color_2: paletteData[1].hex,
+			color_3: paletteData[2].hex,
+			color_4: paletteData[3].hex,
+			color_5: paletteData[4].hex
+		};
+		try {
+			await fetch(`http://localhost:3001/api/v1/palettes/${selectedPalette.id}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(palette)
+			});
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+		const palettesData = await this.fetchPalettes();
+		this.setState({ palettes: palettesData, editInfo: { editing: false, displayEdit: false, hex: [] } });
 	};
 
-	addEditState = hexCodes => {
-		this.setState({ hexCodes });
+	removeEditState = () => {
+		this.setState({ editInfo: { editing: false, displayEdit: false, hex: [] } });
 	};
-	deletePaltte = async id => {
+
+	removeDisplayEdit = hexCodes => {
+		const editing = this.state.editInfo.editing;
+		this.setState({ editInfo: { editing: editing, displayEdit: false, hex: hexCodes } });
+	};
+
+	addEditState = (hexCodes, id, name) => {
+		this.setState({ selectedPalette: { id, name }, editInfo: { editing: true, displayEdit: true, hex: hexCodes } });
+	};
+
+	deletePalette = async id => {
 		const { palettes } = this.state;
 		try {
 			await fetch(`http://localhost:3001/api/v1/palettes/${id}`, {
@@ -98,33 +129,32 @@ class App extends Component {
 		}
 	};
 
-	render() {
-		const { projects, palettes, selectedProject, hexCodes } = this.state;
+	render () {
+		const { projects, palettes, selectedProject, editInfo } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
 				<h1>Hexbrush</h1>
 				<ColorView
-					hexCodes={hexCodes}
+					editInfo={editInfo}
 					removeEditState={this.removeEditState}
 					projects={projects}
 					addProject={this.addProject}
 					addPalette={this.addPalette}
+					removeDisplayEdit={this.removeDisplayEdit}
+					editPalette={this.editPalette}
+					selectProject={this.selectProject}
 				/>
 				<hr />
-				<select
-					className="App-project-select palette-view-select"
-					value={selectedProject}
-					onChange={e => this.setState({ selectedProject: e.target.value })}
-				>
-					<option value="0">--</option>
-					{projects.map(p => (
-						<option key={p.id} value={p.id}>
-							{p.name}
-						</option>
-					))}
-				</select>
-				<PaletteView palettes={filteredPalettes} deletePalette={this.deletePaltte} addEditState={this.addEditState} />
+
+				<PaletteView
+					projects={projects}
+					selectedProject={selectedProject}
+					palettes={filteredPalettes}
+					deletePalette={this.deletePalette}
+					addEditState={this.addEditState}
+					selectProject={this.selectProject}
+				/>
 			</div>
 		);
 	}

@@ -47,7 +47,9 @@ describe('ColorGenerator', () => {
 
 		it('should set state with an array of colors', () => {
 			const initialState = wrapper.state('colors');
-			wrapper.instance().generateHex();
+			setTimeout(() => {
+				wrapper.instance().generateHex();
+			  }, 500);
 			expect(wrapper.state('colors')).not.toEqual(initialState);
 		});
 	});
