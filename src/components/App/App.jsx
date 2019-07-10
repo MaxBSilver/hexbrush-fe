@@ -9,13 +9,17 @@ class App extends Component {
 		palettes: [],
 		selectedProject: 0,
 		editInfo: { editing: false, displayEdit: false, hex: [] },
-		error: ''
+		error: '',
+		selectedPalette: {}
 	};
 
 	componentDidMount() {
 		this.setState({ loading: true }, async () => {
-			const projects = await this.fetchProjects();
-			const palettes = await this.fetchPalettes();
+			let projects = await this.fetchProjects();
+			let palettes = await this.fetchPalettes();
+			console.log(projects)
+		
+			console.log(projects)
 			this.setState({ loading: false, projects, palettes });
 		});
 	}
@@ -109,10 +113,10 @@ class App extends Component {
 		}
 	};
 
-	editPalette = async paletteData => {
+	editPalette = async (paletteData, id, name) => {
 		const { selectedPalette } = this.state;
 		const palette = {
-			name: selectedPalette.name,
+			name: name || selectedPalette.name,
 			color_1: paletteData[0].hex,
 			color_2: paletteData[1].hex,
 			color_3: paletteData[2].hex,
@@ -157,8 +161,9 @@ class App extends Component {
 		}
 	};
 
-	render() {
-		const { projects, palettes, selectedProject, editInfo } = this.state;
+
+	render () {
+		const { projects, palettes, selectedProject, editInfo, selectedPalette } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
@@ -172,6 +177,7 @@ class App extends Component {
 					removeDisplayEdit={this.removeDisplayEdit}
 					editPalette={this.editPalette}
 					selectProject={this.selectProject}
+					selectedPalette={selectedPalette}
 				/>
 				<hr />
 
