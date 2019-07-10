@@ -52,5 +52,5 @@ class PaletteView extends Component {
 		);
 	}
 }
-
+        
 export default PaletteView;
