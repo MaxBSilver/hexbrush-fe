@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PaletteView from '../PaletteView/PaletteView';
 import ColorView from '../ColorView/ColorView';
 
+const url = process.env.REACT_APP_BASE_URL || 'http://localhost:3001'
+
 class App extends Component {
 	state = {
 		loading: false,
@@ -9,20 +11,21 @@ class App extends Component {
 		palettes: [],
 		selectedProject: 0,
 		editInfo: { editing: false, displayEdit: false, hex: [] },
-		error: ''
+		error: '',
+		selectedPalette: {}
 	};
 
 	componentDidMount() {
 		this.setState({ loading: true }, async () => {
-			const projects = await this.fetchProjects();
-			const palettes = await this.fetchPalettes();
+			let projects = await this.fetchProjects();
+			let palettes = await this.fetchPalettes();
 			this.setState({ loading: false, projects, palettes });
 		});
 	}
 
 	fetchProjects = async () => {
 		try {
-			const res = await fetch('http://localhost:3001/api/v1/projects');
+			const res = await fetch(`${url}/api/v1/projects`);
 			return await res.json();
 		} catch (err) {
 			this.setState({ error: err.message });
@@ -31,7 +34,7 @@ class App extends Component {
 
 	fetchPalettes = async () => {
 		try {
-			const res = await fetch('http://localhost:3001/api/v1/palettes');
+			const res = await fetch(`${url}/api/v1/palettes`);
 			return await res.json();
 		} catch (err) {
 			this.setState({ error: err.message });
@@ -40,7 +43,7 @@ class App extends Component {
 
 	renameProject = async (id, name) => {
 		try {
-			await fetch(`http://localhost:3001/api/v1/projects/${id}`, {
+			await fetch(`${url}/api/v1/projects/${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ name })
@@ -54,7 +57,7 @@ class App extends Component {
 
 	deleteProject = async id => {
 		try {
-			await fetch(`http://localhost:3001/api/v1/projects/${id}`, {
+			await fetch(`${url}/api/v1/projects/${id}`, {
 				method: 'DELETE'
 			});
 			const projects = await this.fetchProjects();
@@ -71,7 +74,7 @@ class App extends Component {
 	addProject = async (projectName, paletteName, colors) => {
 		const { projects } = this.state;
 		try {
-			const res = await fetch('http://localhost:3001/api/v1/projects', {
+			const res = await fetch(`${url}/api/v1/projects`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ name: projectName })
@@ -97,7 +100,7 @@ class App extends Component {
 			color_5: colors[4].hex
 		};
 		try {
-			const res = await fetch(`http://localhost:3001/api/v1/palettes/`, {
+			const res = await fetch(`${url}/api/v1/palettes/`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(paletteData)
@@ -109,18 +112,18 @@ class App extends Component {
 		}
 	};
 
-	editPalette = async paletteData => {
+	editPalette = async (colors, id, name) => {
 		const { selectedPalette } = this.state;
 		const palette = {
-			name: selectedPalette.name,
-			color_1: paletteData[0].hex,
-			color_2: paletteData[1].hex,
-			color_3: paletteData[2].hex,
-			color_4: paletteData[3].hex,
-			color_5: paletteData[4].hex
+			name: name || selectedPalette.name,
+			color_1: colors[0].hex,
+			color_2: colors[1].hex,
+			color_3: colors[2].hex,
+			color_4: colors[3].hex,
+			color_5: colors[4].hex
 		};
 		try {
-			await fetch(`http://localhost:3001/api/v1/palettes/${selectedPalette.id}`, {
+			await fetch(`${url}/api/v1/palettes/${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(palette)
@@ -148,7 +151,7 @@ class App extends Component {
 	deletePalette = async id => {
 		const { palettes } = this.state;
 		try {
-			await fetch(`http://localhost:3001/api/v1/palettes/${id}`, {
+			await fetch(`${url}/api/v1/palettes/${id}`, {
 				method: 'DELETE'
 			});
 			this.setState({ palettes: palettes.filter(p => p.id !== id) });
@@ -158,7 +161,7 @@ class App extends Component {
 	};
 
 	render() {
-		const { projects, palettes, selectedProject, editInfo } = this.state;
+		const { projects, palettes, selectedProject, editInfo, selectedPalette } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
@@ -172,6 +175,7 @@ class App extends Component {
 					removeDisplayEdit={this.removeDisplayEdit}
 					editPalette={this.editPalette}
 					selectProject={this.selectProject}
+					selectedPalette={selectedPalette}
 				/>
 				<hr />
 
