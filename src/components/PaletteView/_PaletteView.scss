@@ -9,3 +9,17 @@
 .PaletteView-edit-form {
 	display: flex;
 }
+
+.PaletteView-button {
+	@include input-style;
+	width: 250px;
+	margin-left: 15px;
+
+	&:first-child {
+		margin-left: 0;
+	}
+}
+
+.PaletteView-edit-button {
+	width: 100px;
+}
