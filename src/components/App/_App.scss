@@ -4,7 +4,7 @@
 	padding: 0 25px;
 
 	& hr {
-    border: 0;
+		border: 0;
 		border-top: 2px solid $border-grey;
 		margin-bottom: 25px;
 	}
@@ -14,6 +14,23 @@ select {
 	@include input-style;
 	background-color: white;
 	&.palette-view-select {
-		width: 300px;
+		min-width: 250px;
+		max-width: 250px;
 	}
+}
+
+label {
+	margin-top: 15px;
+}
+img {
+	width: 25px;
+}
+button {
+	background: white;
+	transition: background 0.5;
+}
+button:hover {
+	background: rgb(241, 241, 241);
+	border: 1px solid rgb(217, 217, 217);
+	transition: border 0.5;
 }
