@@ -6,13 +6,12 @@ class PaletteView extends Component {
 		projectName: ''
 	};
 
-
 	renameProject = () => {
-		this.props.renameProject(this.props.selectedProject, this.state.projectName);
-		this.setState({ projectName: '' });
+			this.props.renameProject(this.props.selectedProject, this.state.projectName);
+			this.setState({ projectName: '' });
 	};
 
-	render() {
+	render () {
 		const { palettes, addEditState, deletePalette, selectedProject, projects, deleteProject } = this.props;
 		return (
 			<React.Fragment>
@@ -20,8 +19,7 @@ class PaletteView extends Component {
 					<select
 						className="App-project-select palette-view-select ColorGenerator-button"
 						value={selectedProject}
-						onChange={e => this.props.selectProject(parseInt(e.target.value))}
-					>
+						onChange={e => this.props.selectProject(parseInt(e.target.value))}>
 						<option value="0">--</option>
 						{projects.map(p => (
 							<option key={p.id} value={p.id}>
@@ -32,7 +30,7 @@ class PaletteView extends Component {
 					{selectedProject !== 0 && (
 						<React.Fragment>
 							<input
-							className="ColorGenerator-button"
+								className="ColorGenerator-button"
 								type="text"
 								placeholder="Enter new project name"
 								id="edit-project-input"
@@ -42,7 +40,12 @@ class PaletteView extends Component {
 							<button id="PaletteView-edit-project-btn" className="ColorGenerator-button" onClick={this.renameProject}>
 								Edit Project Name
 							</button>
-							<button id="PaletteView-delete-project-btn" className="ColorGenerator-button" onClick={() => deleteProject(selectedProject)}>Delete Project</button>
+							<button
+								id="PaletteView-delete-project-btn"
+								className="ColorGenerator-button"
+								onClick={() => deleteProject(selectedProject)}>
+								Delete Project
+							</button>
 						</React.Fragment>
 					)}
 				</section>
@@ -56,5 +59,4 @@ class PaletteView extends Component {
 	}
 }
 
-        
 export default PaletteView;
