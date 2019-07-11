@@ -15,7 +15,8 @@ export class ColorGenerator extends Component {
 			{ isLocked: false, id: 4, hex: '' },
 			{ isLocked: false, id: 5, hex: '' }
 		],
-		selectedProject: 0
+		selectedProject: 0,
+		paletteName: ''
 	};
 
 	componentDidMount() {
@@ -107,7 +108,7 @@ export class ColorGenerator extends Component {
 		}
 	};
 
-	render() {
+	render () {
 		const { selectedProject, projectName, paletteName } = this.state;
 		return (
 			<div className="ColorGenerator">

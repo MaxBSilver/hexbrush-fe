@@ -17,8 +17,11 @@ class App extends Component {
 
 	componentDidMount() {
 		this.setState({ loading: true }, async () => {
-			const projects = await this.fetchProjects();
-			const palettes = await this.fetchPalettes();
+			let projects = await this.fetchProjects();
+			let palettes = await this.fetchPalettes();
+			console.log(projects)
+		
+			console.log(projects)
 			this.setState({ loading: false, projects, palettes });
 		});
 	}
