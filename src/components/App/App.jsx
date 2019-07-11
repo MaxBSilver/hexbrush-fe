@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PaletteView from '../PaletteView/PaletteView';
 import ColorView from '../ColorView/ColorView';
 
+const url = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
+
 class App extends Component {
 	state = {
 		loading: false,
@@ -13,7 +15,7 @@ class App extends Component {
 		selectedPalette: {}
 	};
 
-	componentDidMount () {
+	componentDidMount() {
 		this.setState({ loading: true }, async () => {
 			let projects = await this.fetchProjects();
 			let palettes = await this.fetchPalettes();
@@ -26,7 +28,7 @@ class App extends Component {
 
 	fetchProjects = async () => {
 		try {
-			const res = await fetch('http://localhost:3001/api/v1/projects');
+			const res = await fetch(`${url}/api/v1/projects`);
 			return await res.json();
 		} catch (err) {
 			this.setState({ error: err.message });
@@ -35,25 +37,53 @@ class App extends Component {
 
 	fetchPalettes = async () => {
 		try {
-			const res = await fetch('http://localhost:3001/api/v1/palettes');
+			const res = await fetch(`${url}/api/v1/palettes`);
 			return await res.json();
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
 	};
+
+	renameProject = async (id, name) => {
+		try {
+			await fetch(`${url}/api/v1/projects/${id}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ name })
+			});
+			const projects = await this.fetchProjects();
+			this.setState({ projects });
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+	};
+
+	deleteProject = async id => {
+		try {
+			await fetch(`${url}/api/v1/projects/${id}`, {
+				method: 'DELETE'
+			});
+			const projects = await this.fetchProjects();
+			this.setState({ projects, selectedProject: 0 });
+		} catch (err) {
+			this.setState({ error: err.message });
+		}
+	};
+
 	selectProject = projectNum => {
 		this.setState({ selectedProject: projectNum });
 	};
+
 	addProject = async (projectName, paletteName, colors) => {
 		const { projects } = this.state;
 		try {
-			const res = await fetch('http://localhost:3001/api/v1/projects', {
+			const res = await fetch(`${url}/api/v1/projects`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ name: projectName })
 			});
 			const newProject = await res.json();
-			this.setState({ projects: [ ...projects, newProject ] }, () => {
+			this.setState({ projects: [...projects, newProject] }, () => {
 				this.addPalette(newProject.id, paletteName, colors);
 			});
 		} catch (err) {
@@ -73,39 +103,39 @@ class App extends Component {
 			color_5: colors[4].hex
 		};
 		try {
-			const res = await fetch(`http://localhost:3001/api/v1/palettes/`, {
+			const res = await fetch(`${url}/api/v1/palettes`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(paletteData)
 			});
 			const newPalette = await res.json();
-			this.setState({ palettes: [ ...palettes, newPalette ] });
+			this.setState({ palettes: [...palettes, newPalette] });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
 	};
 
-	editPalette = async (paletteData, id, name) => {
+	editPalette = async (colors, id, name) => {
 		const { selectedPalette } = this.state;
 		const palette = {
 			name: name || selectedPalette.name,
-			color_1: paletteData[0].hex,
-			color_2: paletteData[1].hex,
-			color_3: paletteData[2].hex,
-			color_4: paletteData[3].hex,
-			color_5: paletteData[4].hex
+			color_1: colors[0].hex,
+			color_2: colors[1].hex,
+			color_3: colors[2].hex,
+			color_4: colors[3].hex,
+			color_5: colors[4].hex
 		};
 		try {
-			await fetch(`http://localhost:3001/api/v1/palettes/${selectedPalette.id}`, {
+			await fetch(`${url}/api/v1/palettes/${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(palette)
 			});
+			const palettes = await this.fetchPalettes();
+			this.setState({ palettes, editInfo: { editing: false, displayEdit: false, hex: [] } });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
-		const palettesData = await this.fetchPalettes();
-		this.setState({ palettes: palettesData, editInfo: { editing: false, displayEdit: false, hex: [] } });
 	};
 
 	removeEditState = () => {
@@ -114,7 +144,7 @@ class App extends Component {
 
 	removeDisplayEdit = hexCodes => {
 		const editing = this.state.editInfo.editing;
-		this.setState({ editInfo: { editing: editing, displayEdit: false, hex: hexCodes } });
+		this.setState({ editInfo: { editing, displayEdit: false, hex: hexCodes } });
 	};
 
 	addEditState = (hexCodes, id, name) => {
@@ -124,7 +154,7 @@ class App extends Component {
 	deletePalette = async id => {
 		const { palettes } = this.state;
 		try {
-			await fetch(`http://localhost:3001/api/v1/palettes/${id}`, {
+			await fetch(`${url}/api/v1/palettes/${id}`, {
 				method: 'DELETE'
 			});
 			this.setState({ palettes: palettes.filter(p => p.id !== id) });
@@ -133,7 +163,7 @@ class App extends Component {
 		}
 	};
 
-	render () {
+	render() {
 		const { projects, palettes, selectedProject, editInfo, selectedPalette } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
@@ -159,6 +189,8 @@ class App extends Component {
 					deletePalette={this.deletePalette}
 					addEditState={this.addEditState}
 					selectProject={this.selectProject}
+					renameProject={this.renameProject}
+					deleteProject={this.deleteProject}
 				/>
 			</div>
 		);
