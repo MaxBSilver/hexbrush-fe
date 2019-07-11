@@ -1,68 +1,85 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+## Table of contents
+* [Intro](#MovieTrackr-App)
+* [Screenshots](#Screenshots)
+* [Getting Started](#Getting-Started)
+* [How to Use](#How-to-Use)
+* [Project Emphasis](#Project-Emphasis)
+* [UI Design](#UI-Design)
+* [License](#License)
 
-### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Hexbrush
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+This project is a Turing front-end evelopment project focused on working with React, Postgres, Express and Knex. It is deployed to Heroku [here](https://hexbrush-fe.herokuapp.com/).
 
-### `npm test`
+This app is for users who would like design inspiration for their color palettes. It allows users to create projects and assign different color palettes to those projects. Colors can be locked and regenerated until the user is happy, or edited later if they desire a change.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Screenshots
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![](https://i.imgur.com/Zw5beKy.png)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### View Live on GitHub
 
-### `npm run eject`
+You can view the code on my GitHub at the following link or view the live version on Heroku linked above:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<a href="https://www.github.com/maxbsilver/hexbrush-fe">Hexbrush FE</a>
+<a href="https://www.github.com/jarrettkong/hexbrush-be">Hexbrush BE</a>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Get Your Own Copy
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+If you'd like to clone this repository to your own local machine, run the following command in your terminal:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```shell
+git clone https://www.github.com/maxbsilver/hexbrush-fe
+git clone https://www.github.com/jarrettkong/hexbrush-be
+```
 
-## Learn More
+Then run the following command to install dependencies:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```shell
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To view the app in action, run the following command in your terminal:
 
-### Code Splitting
+```bash
+npm start
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+Then, go to `http://localhost:3000/` in your browser to see the code running in the browser.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## UI Design
 
-### Making a Progressive Web App
+The spec we were given had no information on UI design elements, so we started by wireframing a general idea of our layout.  
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+![Wireframes](/src/screenshots/6.png)
 
-### Advanced Configuration
+Then we created a high-fidelity prototype of the design on Figma to have a more detailed idea of where we wanted everything to go on the different web pages.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+![Figma designs](/src/screenshots/7.png)
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Project Emphasis
 
-### `npm run build` fails to minify
+View the project specification on the <a href="http://frontend.turing.io/projects/movie-tracker.html">Turing webpage for this project</a>.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- [x] Wireframing
+- [x] UI design
+- [x] React
+- [x] API fetches
+- [x] Enzyme & Jest testing
+- [x] Express
+- [x] Postgres / Knex
+- [x] NPM
+
+
+## Licensing
+
+All credit goes to <a href="turing.io">Turing School of Software</a> for providing the project specifications.
