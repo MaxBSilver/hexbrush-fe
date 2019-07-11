@@ -95,7 +95,7 @@ class App extends Component {
 	};
 
 	addPalette = async (projectId, name, colors) => {
-		const { palettes, projects } = this.state;
+		const { palettes } = this.state;
 		const paletteData = {
 			name,
 			project_id: projectId,
