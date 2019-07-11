@@ -4,7 +4,6 @@
 * [Intro](#MovieTrackr-App)
 * [Screenshots](#Screenshots)
 * [Getting Started](#Getting-Started)
-* [How to Use](#How-to-Use)
 * [Project Emphasis](#Project-Emphasis)
 * [UI Design](#UI-Design)
 * [License](#License)
