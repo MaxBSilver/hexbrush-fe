@@ -164,7 +164,6 @@ export class ColorGenerator extends Component {
 							</div>
 						)}
 					</div>
-
 					<div className="ColorGenerator-form-container">
 						<label htmlFor="palette-name">Palette Name</label>
 						<input
