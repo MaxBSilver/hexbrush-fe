@@ -171,7 +171,7 @@ class App extends Component {
 		return (
 			<div className="App">
 				<h1>
-					<img src="https://i.imgur.com/f6WRRJm.png" />Hexbrush.io
+					<img src="https://i.imgur.com/f6WRRJm.png" alt="logo" />Hexbrush.io
 				</h1>
 				<ColorView
 					editInfo={editInfo}
