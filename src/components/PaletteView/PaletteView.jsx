@@ -30,25 +30,36 @@ class PaletteView extends Component {
 					{selectedProject !== 0 && (
 						<React.Fragment>
 							<input
-							className="PaletteView-button PaletteView-edit-input"
+								className="PaletteView-button PaletteView-edit-input"
 								type="text"
 								placeholder="Enter new project name"
 								id="edit-project-input"
 								value={this.state.projectName}
 								onChange={e => this.setState({ projectName: e.target.value })}
 							/>
-							<button id="PaletteView-edit-project-btn" className="PaletteView-button PaletteView-edit-btn" onClick={this.renameProject}>
+							<button
+								id="PaletteView-edit-project-btn"
+								className="PaletteView-button PaletteView-edit-btn"
+								onClick={this.renameProject}
+							>
 								Edit Project Name
 							</button>
-
-							<button id="PaletteView-delete-project-btn" className="PaletteView-button PaletteView-edit-btn PaletteView-delete-btn" onClick={() => deleteProject(selectedProject)}>Delete Project</button>
+							<button
+								id="PaletteView-delete-project-btn"
+								className="PaletteView-button PaletteView-edit-btn PaletteView-delete-btn"
+								onClick={() => deleteProject(selectedProject)}
+							>
+								Delete Project
+							</button>
 						</React.Fragment>
 					)}
 				</section>
 				<output className="PaletteView">
-					{palettes.sort((a,b) =>a.name < b.name).map(palette => (
-						<Palette key={palette.id} deletePalette={deletePalette} addEditState={addEditState} {...palette} />
-					))}
+					{palettes
+						.sort((a, b) => a.name < b.name)
+						.map(palette => (
+							<Palette key={palette.id} deletePalette={deletePalette} addEditState={addEditState} {...palette} />
+						))}
 				</output>
 			</React.Fragment>
 		);
