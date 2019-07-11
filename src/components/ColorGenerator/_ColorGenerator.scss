@@ -8,6 +8,10 @@
   }
 }
 
+.error-message {
+	color: red;
+}
+
 .ColorGenerator-colors {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);

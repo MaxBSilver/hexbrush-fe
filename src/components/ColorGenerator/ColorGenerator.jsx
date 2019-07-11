@@ -181,7 +181,7 @@ export class ColorGenerator extends Component {
 					<button className="ColorGenerator-form-input" type="submit">
 						Create
 					</button>
-					{existingProject && <p>A project with that name already exists. Please choose a new name.</p>}
+					{existingProject && <p className="error-message">A project with that name already exists. Please choose a new name.</p>}
 				</form>
 			</div>
 		);
