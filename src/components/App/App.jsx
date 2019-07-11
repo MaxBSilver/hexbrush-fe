@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PaletteView from '../PaletteView/PaletteView';
 import ColorView from '../ColorView/ColorView';
 
-const url = process.env.REACT_APP_BASE_URL || 'http://localhost:3001'
+const url = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
 
 class App extends Component {
 	state = {
@@ -17,8 +17,8 @@ class App extends Component {
 
 	componentDidMount() {
 		this.setState({ loading: true }, async () => {
-			let projects = await this.fetchProjects();
-			let palettes = await this.fetchPalettes();
+			const projects = await this.fetchProjects();
+			const palettes = await this.fetchPalettes();
 			this.setState({ loading: false, projects, palettes });
 		});
 	}
@@ -100,7 +100,7 @@ class App extends Component {
 			color_5: colors[4].hex
 		};
 		try {
-			const res = await fetch(`${url}/api/v1/palettes/`, {
+			const res = await fetch(`${url}/api/v1/palettes`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(paletteData)
@@ -128,11 +128,11 @@ class App extends Component {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(palette)
 			});
+			const palettes = await this.fetchPalettes();
+			this.setState({ palettes, editInfo: { editing: false, displayEdit: false, hex: [] } });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
-		const palettesData = await this.fetchPalettes();
-		this.setState({ palettes: palettesData, editInfo: { editing: false, displayEdit: false, hex: [] } });
 	};
 
 	removeEditState = () => {
@@ -141,7 +141,7 @@ class App extends Component {
 
 	removeDisplayEdit = hexCodes => {
 		const editing = this.state.editInfo.editing;
-		this.setState({ editInfo: { editing: editing, displayEdit: false, hex: hexCodes } });
+		this.setState({ editInfo: { editing, displayEdit: false, hex: hexCodes } });
 	};
 
 	addEditState = (hexCodes, id, name) => {

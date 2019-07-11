@@ -18,7 +18,7 @@ export class ColorGenerator extends Component {
 		selectedProject: 0
 	};
 
-	componentDidMount () {
+	componentDidMount() {
 		this.generateHex();
 		this.createColors();
 	}
@@ -107,7 +107,7 @@ export class ColorGenerator extends Component {
 		}
 	};
 
-	render () {
+	render() {
 		const { selectedProject, projectName, paletteName } = this.state;
 		return (
 			<div className="ColorGenerator">
@@ -140,7 +140,8 @@ export class ColorGenerator extends Component {
 							className="App-project-select"
 							id="project-selector"
 							value={selectedProject}
-							onChange={e => this.selectProject(e)}>
+							onChange={e => this.selectProject(e)}
+						>
 							<option value="0">-- Create New Project --</option>
 							{this.props.projects.map(p => (
 								<option key={p.id} value={p.id}>

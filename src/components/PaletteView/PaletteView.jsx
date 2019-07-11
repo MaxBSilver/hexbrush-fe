@@ -33,6 +33,7 @@ class PaletteView extends Component {
 							<input
 								type="text"
 								placeholder="Enter new project name"
+								id="edit-project-input"
 								value={this.state.projectName}
 								onChange={e => this.setState({ projectName: e.target.value })}
 							/>
