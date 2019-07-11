@@ -7,6 +7,7 @@ export class ColorGenerator extends Component {
 		loading: true,
 		projectName: '',
 		paletteName: '',
+		editedName: '',
 		colors: [
 			{ isLocked: false, id: 1, hex: '' },
 			{ isLocked: false, id: 2, hex: '' },
@@ -18,7 +19,7 @@ export class ColorGenerator extends Component {
 		paletteName: ''
 	};
 
-	componentDidMount () {
+	componentDidMount() {
 		this.generateHex();
 		this.createColors();
 	}
@@ -82,10 +83,12 @@ export class ColorGenerator extends Component {
 		});
 		this.setState({ colors });
 	};
+
 	selectProject = e => {
 		this.props.selectProject(e.target.value);
 		this.setState({ selectedProject: parseInt(e.target.value) });
 	};
+
 	handleSubmit = e => {
 		e.preventDefault();
 		const { selectedProject, projectName, paletteName, colors } = this.state;
@@ -98,8 +101,8 @@ export class ColorGenerator extends Component {
 
 	editPalette = e => {
 		if (e.target.id === 'save-btn') {
-			this.props.editPalette(this.state.colors, this.props.selectedPalette.id, this.state.paletteName);
-			this.setState({ paletteName: '' });
+			this.props.editPalette(this.state.colors, this.props.selectedPalette.id, this.state.editedName);
+			this.setState({ editedName: '' });
 		} else {
 			this.props.editPalette(this.state.colors);
 		}
@@ -118,8 +121,9 @@ export class ColorGenerator extends Component {
 						<React.Fragment>
 							<input
 								className="ColorGenerator-button"
-								value={this.state.paletteName}
-								onChange={e => this.setState({ paletteName: e.target.value })}
+								value={this.state.editedName}
+								placeholder="Edit Palette Name"
+								onChange={e => this.setState({ editedName: e.target.value })}
 							/>
 							<button id="save-btn" className="ColorGenerator-button" onClick={this.editPalette}>
 								Save
@@ -137,7 +141,8 @@ export class ColorGenerator extends Component {
 							className="App-project-select"
 							id="project-selector"
 							value={selectedProject}
-							onChange={e => this.selectProject(e)}>
+							onChange={e => this.selectProject(e)}
+						>
 							<option value="0">-- Create New Project --</option>
 							{this.props.projects.map(p => (
 								<option key={p.id} value={p.id}>

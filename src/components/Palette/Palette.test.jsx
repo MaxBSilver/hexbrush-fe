@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 const mockPalette = {
 	id: 99,
 	project_id: 3,
+	name: 'My Palette',
 	color_1: '#899e01',
 	color_2: '#ff21c3',
 	color_3: '#88b712',
@@ -28,7 +29,7 @@ describe('Palette', () => {
 		const { color_1, color_2, color_3, color_4, color_5 } = mockPalette;
 		const mockHexCodes = [color_1, color_2, color_3, color_4, color_5];
 		wrapper.find('.edit-btn').simulate('click');
-		expect(mockAddEditState).toHaveBeenCalledWith(mockHexCodes);
+		expect(mockAddEditState).toHaveBeenCalledWith(mockHexCodes, 99, 'My Palette');
 	});
 
 	it('should call deletePalette on delete click with id', () => {
