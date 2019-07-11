@@ -19,9 +19,6 @@ class App extends Component {
 		this.setState({ loading: true }, async () => {
 			let projects = await this.fetchProjects();
 			let palettes = await this.fetchPalettes();
-			console.log(projects)
-		
-			console.log(projects)
 			this.setState({ loading: false, projects, palettes });
 		});
 	}
@@ -169,7 +166,7 @@ class App extends Component {
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
-				<h1>Hexbrush</h1>
+				<h1><img src="https://i.imgur.com/f6WRRJm.png"/>Hexbrush.io</h1>
 				<ColorView
 					editInfo={editInfo}
 					removeEditState={this.removeEditState}
