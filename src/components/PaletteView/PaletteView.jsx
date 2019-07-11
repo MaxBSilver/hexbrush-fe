@@ -7,11 +7,11 @@ class PaletteView extends Component {
 	};
 
 	renameProject = () => {
-		this.props.renameProject(this.props.selectedProject, this.state.projectName);
-		this.setState({ projectName: '' });
+			this.props.renameProject(this.props.selectedProject, this.state.projectName);
+			this.setState({ projectName: '' });
 	};
 
-	render() {
+	render () {
 		const { palettes, addEditState, deletePalette, selectedProject, projects, deleteProject } = this.props;
 		return (
 			<React.Fragment>
@@ -19,8 +19,7 @@ class PaletteView extends Component {
 					<select
 						className="App-project-select palette-view-select PaletteView-button"
 						value={selectedProject}
-						onChange={e => this.props.selectProject(parseInt(e.target.value))}
-					>
+						onChange={e => this.props.selectProject(parseInt(e.target.value))}>
 						<option value="0">--</option>
 						{projects.map(p => (
 							<option key={p.id} value={p.id}>

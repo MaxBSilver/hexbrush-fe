@@ -15,7 +15,7 @@ class App extends Component {
 		selectedPalette: {}
 	};
 
-	componentDidMount() {
+	componentDidMount () {
 		this.setState({ loading: true }, async () => {
 			let projects = await this.fetchProjects();
 			let palettes = await this.fetchPalettes();
@@ -44,7 +44,6 @@ class App extends Component {
 	renameProject = async (id, name) => {
 		try {
 			await fetch(`http://localhost:3001/api/v1/projects/${id}`, {
-
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ name })
@@ -74,18 +73,24 @@ class App extends Component {
 
 	addProject = async (projectName, paletteName, colors) => {
 		const { projects } = this.state;
-		try {
-			const res = await fetch(`${url}/api/v1/projects`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name: projectName })
-			});
-			const newProject = await res.json();
-			this.setState({ projects: [...projects, newProject] }, () => {
-				this.addPalette(newProject.id, paletteName, colors);
-			});
-		} catch (err) {
-			this.setState({ error: err.message });
+		const projectNames = projects.map(project => project.name);
+		if (!projectNames.includes(projectName)) {
+			try {
+				const res = await fetch(`${url}/api/v1/projects`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ name: projectName })
+				});
+				const newProject = await res.json();
+				this.setState({ projects: [ ...projects, newProject ] }, () => {
+					this.addPalette(newProject.id, paletteName, colors);
+				});
+				let projects = await this.fetchProjects();
+				this.setState({ projects });
+			} catch (err) {
+				this.setState({ error: err.message });
+			}
+		} else {
 		}
 	};
 
@@ -107,7 +112,7 @@ class App extends Component {
 				body: JSON.stringify(paletteData)
 			});
 			const newPalette = await res.json();
-			this.setState({ palettes: [...palettes, newPalette] });
+			this.setState({ palettes: [ ...palettes, newPalette ] });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
@@ -161,12 +166,13 @@ class App extends Component {
 		}
 	};
 	render () {
-
 		const { projects, palettes, selectedProject, editInfo, selectedPalette } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
-				<h1><img src="https://i.imgur.com/f6WRRJm.png"/>Hexbrush.io</h1>
+				<h1>
+					<img src="https://i.imgur.com/f6WRRJm.png" alt="logo" />Hexbrush.io
+				</h1>
 				<ColorView
 					editInfo={editInfo}
 					removeEditState={this.removeEditState}
