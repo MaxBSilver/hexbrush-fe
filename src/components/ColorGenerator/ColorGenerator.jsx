@@ -107,8 +107,9 @@ export class ColorGenerator extends Component {
 		}
 	};
 
-	render () {
+	render() {
 		const { selectedProject, projectName, paletteName } = this.state;
+		const { existingProject } = this.props;
 		return (
 			<div className="ColorGenerator">
 				<section className="ColorGenerator-colors">
@@ -180,6 +181,7 @@ export class ColorGenerator extends Component {
 					<button className="ColorGenerator-form-input" type="submit">
 						Create
 					</button>
+					{existingProject && <p>A project with that name already exists. Please choose a new name.</p>}
 				</form>
 			</div>
 		);

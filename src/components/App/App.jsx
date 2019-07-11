@@ -12,10 +12,11 @@ class App extends Component {
 		selectedProject: 0,
 		editInfo: { editing: false, displayEdit: false, hex: [] },
 		error: '',
-		selectedPalette: {}
+		selectedPalette: {},
+		existingProject: false
 	};
 
-	componentDidMount () {
+	componentDidMount() {
 		this.setState({ loading: true }, async () => {
 			let projects = await this.fetchProjects();
 			let palettes = await this.fetchPalettes();
@@ -82,16 +83,15 @@ class App extends Component {
 					body: JSON.stringify({ name: projectName })
 				});
 				const newProject = await res.json();
-				this.setState({ projects: [ ...projects, newProject ] }, () => {
+				this.setState({ projects: [...projects, newProject], existingProject: false }, () => {
 					this.addPalette(newProject.id, paletteName, colors);
 				});
-				let projectData = await this.fetchProjects();
-				this.setState({ projects: projectData });
 			} catch (err) {
 				this.setState({ error: err.message });
 			}
+		} else {
+			this.setState({ existingProject: true });
 		}
-		this.forceUpdate();
 	};
 
 	addPalette = async (projectId, name, colors) => {
@@ -112,8 +112,7 @@ class App extends Component {
 				body: JSON.stringify(paletteData)
 			});
 			const newPalette = await res.json();
-			this.setState({ palettes: [ ...palettes, newPalette ] });
-			
+			this.setState({ palettes: [...palettes, newPalette] });
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
@@ -166,8 +165,8 @@ class App extends Component {
 			this.setState({ error: err.message });
 		}
 	};
-	render () {
-		const { projects, palettes, selectedProject, editInfo, selectedPalette } = this.state;
+	render() {
+		const { projects, palettes, selectedProject, editInfo, selectedPalette, existingProject } = this.state;
 		const filteredPalettes = palettes.filter(palette => palette.project_id === parseInt(selectedProject));
 		return (
 			<div className="App">
@@ -184,6 +183,7 @@ class App extends Component {
 					editPalette={this.editPalette}
 					selectProject={this.selectProject}
 					selectedPalette={selectedPalette}
+					existingProject={existingProject}
 				/>
 				<hr />
 
