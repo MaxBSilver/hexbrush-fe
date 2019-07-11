@@ -47,7 +47,7 @@ class PaletteView extends Component {
 					)}
 				</section>
 				<output className="PaletteView">
-					{palettes.map(palette => (
+					{palettes.sort((a,b) =>a.name < b.name).map(palette => (
 						<Palette key={palette.id} deletePalette={deletePalette} addEditState={addEditState} {...palette} />
 					))}
 				</output>
