@@ -6,15 +6,25 @@ import { mockProjects, mockPalettes } from '../../util/mockData';
 const { color_1, color_2, color_3, color_4, color_5 } = mockPalettes[0];
 const mockHexCodes = [ color_1, color_2, color_3, color_4, color_5 ];
 const mockEditInfo = { editing: false, displayEdit: false, hex: mockHexCodes };
+const mockSelectedProject = 0;
+const mockSelectedPalette = { id: 1, name: "max's" };
 
 describe('ColorGenerator', () => {
-	let wrapper, mockAddPalette, mockAddProject, mockRemoveEditState, mockRemoveDisplayEdit;
+	let wrapper,
+		mockAddPalette,
+		mockAddProject,
+		mockRemoveEditState,
+		mockRemoveDisplayEdit,
+		mockSelectProject,
+		mockEditPalette;
 
 	beforeEach(() => {
 		mockAddPalette = jest.fn();
 		mockAddProject = jest.fn();
 		mockRemoveEditState = jest.fn();
 		mockRemoveDisplayEdit = jest.fn();
+		mockSelectProject = jest.fn();
+		mockEditPalette = jest.fn();
 		wrapper = shallow(
 			<ColorGenerator
 				projects={mockProjects}
@@ -25,6 +35,10 @@ describe('ColorGenerator', () => {
 				editInfo={mockEditInfo}
 				removeEditState={mockRemoveEditState}
 				removeDisplayEdit={mockRemoveDisplayEdit}
+				selectProject={mockSelectProject}
+				selectedProject={mockSelectedProject}
+				editPalette={mockEditPalette}
+				selectedPalette={mockSelectedPalette}
 			/>
 		);
 	});
@@ -91,7 +105,7 @@ describe('ColorGenerator', () => {
 			wrapper.instance().generateHex();
 			setTimeout(() => {
 				expect(wrapper.state('colors')).not.toEqual(initialState);
-			}, 500);
+			}, 300);
 		});
 
 		it('should set state with an array of colors', () => {
@@ -99,7 +113,7 @@ describe('ColorGenerator', () => {
 			setTimeout(() => {
 				wrapper.instance().generateHex();
 				expect(wrapper.state('colors')).not.toEqual(initialState);
-			}, 500);
+			}, 300);
 		});
 	});
 	describe('displayEditColors', () => {
@@ -137,8 +151,60 @@ describe('ColorGenerator', () => {
 		});
 	});
 	describe('lockColor', () => {
-		it('should', () => {
-			wrapper.instance().lockColor(1);
+		it('should be able to lock colors', () => {
+			const initialState = wrapper.state('colors');
+			setTimeout(() => {
+				wrapper.instance().lockColor(2);
+				expect(wrapper.state('colors')).not.toEqual(initialState);
+			}, 2000);
+		});
+		it("should do nothing if id doesn't exist", () => {
+			const initialState = wrapper.state('colors');
+			setTimeout(() => {
+				wrapper.instance().lockColor(12);
+			}, 300);
+			expect(wrapper.state('colors')).toEqual(initialState);
+		});
+	});
+	describe('selectProject', () => {
+		it('should be able to selectProjects', () => {
+			const e = { target: { value: 1 } };
+			wrapper.instance().selectProject(e);
+			expect(mockSelectProject).toHaveBeenCalled();
+			expect(wrapper.state('selectedProject')).toEqual(1);
+		});
+	});
+	describe('handleSubmit', () => {
+		it('should handle submit if project is selected', () => {
+			const e = { preventDefault: jest.fn() };
+			wrapper.instance().handleSubmit(e);
+			expect(mockAddProject).toHaveBeenCalled();
+		});
+		it('should handle submit if palette is selected', () => {
+			wrapper = shallow(
+				<ColorGenerator
+					projects={mockProjects}
+					paletteName="max-palette"
+					hexCodes={mockHexCodes}
+					addProject={mockAddProject}
+					addPalette={mockAddPalette}
+					editInfo={mockEditInfo}
+					removeEditState={mockRemoveEditState}
+					removeDisplayEdit={mockRemoveDisplayEdit}
+					selectProject={mockSelectProject}
+					selectedProject={1}
+				/>
+			);
+			let e = { preventDefault: jest.fn() };
+			wrapper.instance().handleSubmit(e);
+			expect(mockAddProject).toHaveBeenCalled();
+		});
+	});
+	describe('editPalette', () => {
+		it('editPalette should set the value of paletteName in state to an empty string', () => {
+			let e = { target: { id: 'save-btn' } };
+			wrapper.instance().editPalette(e);
+			expect(wrapper.state('paletteName')).toEqual('');
 		});
 	});
 });
