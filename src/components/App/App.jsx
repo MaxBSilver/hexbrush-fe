@@ -85,17 +85,17 @@ class App extends Component {
 				this.setState({ projects: [ ...projects, newProject ] }, () => {
 					this.addPalette(newProject.id, paletteName, colors);
 				});
-				let projects = await this.fetchProjects();
-				this.setState({ projects });
+				let projectData = await this.fetchProjects();
+				this.setState({ projects: projectData });
 			} catch (err) {
 				this.setState({ error: err.message });
 			}
-		} else {
 		}
+		this.forceUpdate();
 	};
 
 	addPalette = async (projectId, name, colors) => {
-		const { palettes } = this.state;
+		const { palettes, projects } = this.state;
 		const paletteData = {
 			name,
 			project_id: projectId,
@@ -113,6 +113,7 @@ class App extends Component {
 			});
 			const newPalette = await res.json();
 			this.setState({ palettes: [ ...palettes, newPalette ] });
+			
 		} catch (err) {
 			this.setState({ error: err.message });
 		}
