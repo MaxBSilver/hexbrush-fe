@@ -43,7 +43,7 @@ class App extends Component {
 
 	renameProject = async (id, name) => {
 		try {
-			await fetch(`http://localhost:3001/api/v1/projects/${id}`, {
+			await fetch(`${url}/api/v1/projects/${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ name })
@@ -57,7 +57,7 @@ class App extends Component {
 
 	deleteProject = async id => {
 		try {
-			await fetch(`http://localhost:3001/api/v1/projects/${id}`, {
+			await fetch(`${url}/api/v1/projects/${id}`, {
 				method: 'DELETE'
 			});
 			const projects = await this.fetchProjects();
